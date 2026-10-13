@@ -2,7 +2,7 @@
 
 DSHでは複数のpluginが、同じ画面、locale、tool registry、設定、接続を使います。自分だけで動くことに加えて、「他の登録を消さない」「後から届いた古い応答で上書きしない」「自分をOFFにした後に残さない」を確認します。
 
-2026-10-13 JSTの[自作7プラグイン](own-plugins.md)の主要処理を比較しました。以下の実装例は固定コミットを参照しています。「提案」「確認項目」は今後の設計・検証であり、7つを同時起動して通過した結果ではありません。
+2026-10-13の自作7プラグインの主要処理を比較しました。以下の既存実装例は調査当時の固定コミットを参照し、現在の版は[一覧](own-plugins.md)にあります。更新機能追加時の7件同時起動とGlass UI解除は[実装記録](update-implementation.md)で確認済みですが、表の全組み合わせ・全操作を通した結果ではありません。後続PWA `0.3.0`とGlass UI `0.2.2`を含む共存は未再検証です。
 
 ## 名前と所有範囲を決める
 
@@ -11,7 +11,7 @@ DSHでは複数のpluginが、同じ画面、locale、tool registry、設定、�
 | Piログイン | slot ID `dsh-pi-login`、route `dsh-pi-login/*`、credential scope `llm-pi-ai` | package名と保存scopeは同一とは限らない。scopeを見た目の統一だけで改名しない |
 | 検索プロバイダー | slot ID `web-search-provider`、locale `dsh.searchProviders`、追加tool `x_search`等 | 名前付きproviderの追加と、同名toolの登録は別の競合になる |
 | 日本語化 | `ja`言語、DSHの各namespaceの日本語辞書、`data-dsh-japanese`のstyle | 既存namespaceへの翻訳追加は意図した共有。言語そのものを重複登録しない |
-| PWA | `/manifest.webmanifest`、`/pwa/*`、HTML headへのmeta追加 | route名とmetaは共有面。prefixだけではmanifest・theme-colorの競合を解決できない |
+| PWA | `/manifest.webmanifest`、`/pwa/*`、HTML headへのmeta追加。`0.3.0`は`data-dsh-mobile`も追加 | routeとmeta、shellの左右パネルは共有面。prefixだけでは別themeの適用や復元との競合を解決できない |
 | Remora | 更新対象package `dsh-remora`、ローカル操作の独自判定 | proxyで実際の接続元・Hostを変えると、権限判定まで変わる |
 | Glass UI | `data-glassui-*`、`--glassui-*`、`glassui-*`クラス | DSH全体の色・レイヤーを扱うため、独自prefixがあっても画面全体に影響する |
 | CF | `/dsh-cf/*`、profile内`.dsh-cf/`、所有した資源のID | DSHの接続許可とクラウド資源は共有。自分が所有する範囲だけを変更する |
@@ -74,6 +74,12 @@ function setOwnedProperty(element, property, value) {
 
 MutationObserverは自分のstyle変更を繰り返し観測しないよう、対象attribute、差分判定、処理回数を絞ります。theme切り替え、日本語切り替え、設定panelの開閉を組み合わせて、再描画が止まることを確認します。
 
+### PWAモバイル表示とGlass UI
+
+PWA `0.3.0`の[Client](https://github.com/Aero123421/dsh-pwa/blob/e2692d04699294c31b53e54224bc05d81e2b205e/client.js)は、`html[data-dsh-mobile]`以下のCSSとshellのoverlay slotで、左右ドロワーと設定ナビの配置を変えます。これは自身の設定rootを超える意図的な変更です。モードはブラウザーの`localStorage`へ保存し、解除時は自分のattribute・style・listener・slotを戻します。
+
+Glass UIと併用するときは、transform、filter、z-index、overflow、Portalの表示範囲を確認します。左ドロワーと右パネルの開閉・再選択、言語/theme変更、モバイル表示オフ、片方だけの無効化、幅767/768px境界を試します。単体の試験が成功したことを、この組み合わせの成功へ置き換えません。
+
 ## 翻訳・fontは利用者の選択を優先する
 
 日本語化の[実装](https://github.com/Aero123421/dsh-japanese/blob/c6bb53790233c171f6854820f89e87205abf5b51/src/client.jsx)は、`ja`が未登録のときだけ言語を追加し、fontを`html:lang(ja)`に限定しています。text/code fontには利用者の指定を参照するCSS変数があります。
@@ -126,6 +132,8 @@ ctx.inject(['connection', 'webServer'], child => {
 長く生かすのは必要なcontrollerだけです。接続ごとの要求・購読は接続が終わったら解除し、旧接続の結果を新接続のUIへ反映しません。逆にplugin自体をOFFにした場合は、rootのcontrollerも確実に停止させます。
 
 共有profileに対する更新・設定保存は、DSHのmanager・settingsを通します。プラグインごとに直接pnpmを起動したり、profileファイルを書き換えたりすると、他pluginの更新処理と競合します。UIの連打防止だけでは、別の画面・pluginから始まった処理は制御できません。
+
+更新receiptとブラウザーの操作IDもprofile別にします。同一originで別profileへ接続したとき、前の操作を新しい接続へ持ち込みません。最後の保存待ちの後にも導入版を確認し、別Clientが入れた新版を古い候補で下げないようにします。実装例は[更新ボタンの結果照合](update-button.md#同じブラウザーから別profileへ接続する)にあります。
 
 ## proxyで権限判定を変えない
 

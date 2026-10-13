@@ -19,7 +19,7 @@
 
 ## Piのモデル名はどう追従するか
 
-確認したPiログイン`0.3.1`は、固定されたPi SDKのモデル情報を使います。SDKを更新してプラグインを再ビルド・配布すると、その版の対応内容に追従します。
+確認したPiログイン`0.5.1`は、固定されたPi SDKのモデル情報を使います。SDKを更新してプラグインを再ビルド・配布すると、その版の対応内容に追従します。プラグインの更新ボタンが公開Releaseを導入することと、開発者がPi SDKを更新することは別です。
 
 確認版は`@earendil-works/pi-ai`の`1.1.0`を使います。開発用の`npm run update:pi`はnpmのlatest版へ依存を固定し、SDKが変わった場合にpluginのパッチ版も上げる処理です。版を指定する引数もあります。更新差分を確認し、認証、モデル能力、stream、履歴、UIの関連テストを通してから再配布します。これは開発者の更新手順で、利用者の実行中DSHが自動でSDKを入れ替える処理ではありません。
 
@@ -65,6 +65,8 @@ dsh plugin --profile web add -w github:OWNER/REPO#v0.1.1
 
 DSHの確認版では、既に導入されたパッケージを差し替えると`restart-required`になります。「新しいファイルが入った版」と「現在動いている版」を分けて表示します。
 
+Web版はサーバーの再起動後にブラウザーを再読み込みします。PWAで初めてClient entryを追加した更新では、ブラウザー再読み込みだけでは新しい設定欄が出ませんでした。[原因と確認手順](update-and-restart.md)を参照してください。再起動を実行する機能は7つの更新ボタンに共通して搭載したものではありません。
+
 ## DSHの互換性を維持する
 
 対応範囲は、`peerDependencies`だけでなく実際に試したDSH版も記録します。内部APIを参照している箇所を一覧にすると、上流更新時に調べる場所を絞れます。
@@ -81,6 +83,6 @@ DSHの確認版では、既に導入されたパッケージを差し替える�
 
 ## 根拠
 
-- [Piログインの確認コミット](https://github.com/Aero123421/dsh-pi-login/tree/830245768a319f19ac461aa0d8716ea32baf020f)
+- [Piログイン0.5.1のpackageとSDK固定](https://github.com/Aero123421/dsh-pi-login/blob/a8002c2355cb31fab680ff220b7a985010ec4f9e/package.json)
 - [DSHの変更結果・インストールオプション](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/boot/plugin-manager/src/types.ts)
 - [DSH plugin managerの動作と制限](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/boot/plugin-manager/README.md)

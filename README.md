@@ -15,7 +15,9 @@ DeepSeek Harness向けに作ったプラグインのレビューで見つかっ�
 | UIやCLIから導入できるようにする | [インストールとパッケージ構成](docs/installation.md) |
 | 更新の種類と追従方針を決める | [プラグイン・モデル・DSHの更新](docs/updates.md) |
 | 設定画面に更新ボタンを作る | [更新ボタンの設計](docs/update-button.md) |
-| 自作7プラグインの更新Issueと実装案を確認する | [自作プラグイン一覧](docs/own-plugins.md) |
+| 自作7プラグインの公開版・更新操作・実装例を確認する | [自作プラグイン一覧](docs/own-plugins.md) |
+| 更新機能の修正と検証結果を調べる | [更新機能の実装記録](docs/update-implementation.md) |
+| 更新後に設定欄が出ない・旧版のまま動く | [更新後の反映と再起動](docs/update-and-restart.md) |
 | 次のプラグインに持たせる機能を決める | [搭載する機能](docs/recommended-features.md) |
 | 他プラグインとの併用を設計する | [干渉を避ける実装と確認項目](docs/plugin-coexistence.md) |
 | DSHに合う設定画面を作る | [UI・日本語化・フォント](docs/ui.md) |
@@ -55,6 +57,8 @@ DeepSeek Harness向けに作ったプラグインのレビューで見つかっ�
 
 Issueから解決までの分析では、自作6repositoryのIssue・PR・CI・Releaseと、外部6事例・公式discussionを追いました。時刻と解決範囲、追加修正の理由は[フローの分析](docs/workflow/README.md)、取得範囲と判断の限界は[調査方法](docs/workflow/evidence.md)に記録しています。
 
-更新機能の追加調査ではCFを含む自作7repositoryを確認し、それぞれに実装例付きIssueを作成しました。[一覧](docs/own-plugins.md)にIssue作成時の対象版、[干渉対策](docs/plugin-coexistence.md)に共有する資源と併用確認の手順があります。その後の実装・レビュー・公開版と、DSH/pnpmの導入条件は[実装記録](docs/update-implementation.md)に記録しています。
+自作7repositoryには更新機能が入り、対象Issueはすべてclosedです。2026-10-13 12:22 UTCから公開Release、タグ、mainのpackage、IssueとPRを照合しました。[一覧](docs/own-plugins.md)に現在の公開版と実装例、[実装記録](docs/update-implementation.md)に修正・検証範囲とDSH/pnpmの導入条件があります。PWA `0.3.0`のモバイル表示、Glass UI `0.2.2`の設定・描画変更も反映しています。
+
+PWA `0.1.0`から`0.2.0`への更新では、導入版が新しくなってもブラウザーの再読み込みだけでは設定欄が出ないことを再現しました。[更新後の反映と再起動](docs/update-and-restart.md)に、Hostのmetadataキャッシュ、導入版と実行版の違い、確認手順をまとめています。最新のPWA・Glass UIを含む7件の共存試験を今回やり直したわけではありません。
 
 新しい問題を追加するときは、発生条件、影響、修正、失敗を再現する確認方法、PRまたはコミットを残してください。未検証のAPI接続やOSを「対応済み」に含めないでください。

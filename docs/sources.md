@@ -1,6 +1,6 @@
 # 参照元と確認範囲
 
-確認日は2026-10-13です。以下の公開コミット、修正PR、未完了Issueを参照しています。作業ディレクトリやブラウザーfixtureだけを、公開版の証拠にしないよう、参照を公開URLで残しています。
+確認日は2026-10-13です。以下の公開コミット、修正PR、未完了Issueを参照しています。作業ディレクトリやブラウザーfixtureだけを、公開版の証拠にしないよう、参照を公開URLで残しています。最初のレビュー、更新Issue作成、更新実装後の確認は、それぞれの対象版を残しています。
 
 ## 確認したソース
 
@@ -49,7 +49,7 @@ DSHの固定コミットは、Piログイン・日本語化などの`upstream.js
 | FxTwitter | 投稿URL取得の実通信確認と、キーワード検索の利用可否を区別する |
 | Remoraの外部配備・OS別keychain | 実行した環境以外へ検証結果を広げない |
 | 小さい画面 | pluginのresponsive対応と、親DSHのlayout制約を区別する |
-| 独自更新ボタン | [設計章](update-button.md)は提案。完成した共通updaterを配布しているわけではない |
+| 独自更新ボタン | 自作7pluginに実装・公開済み。[設計章](update-button.md)は実装指針で、単独の共通updater packageの配布ではない |
 
 ## DSH本体で参照した境界
 
@@ -87,3 +87,11 @@ DSHの固定コミットは、Piログイン・日本語化などの`upstream.js
 [搭載する機能](recommended-features.md)と[干渉対策](plugin-coexistence.md)は、その固定ソースの主要処理から比較した分析です。登録・解除、CSS、辞書、tool、credential、設定競合、接続の寿命、proxyと管理権限、processとクラウド資源の所有を扱っています。実装から確認したことと、提案・今後の併用確認を区別しています。
 
 この追加調査ではruntimeを変更・起動していません。新規文書のMarkdown・内部リンク・引用先を検証し、Issueには実装時に必要な確認項目を記載しています。過去のReleaseのテスト結果を、今回の全組み合わせの検証結果として扱いません。
+
+## 更新実装後と後続Releaseの確認
+
+2026-10-13 12:22 UTCから、7repositoryの最新公開Release・asset名・prerelease状態、mainの固定SHAとpackage、公開タグのSHA、更新Issueのclosed状態と実装PRを取得しました。現在版と公開ソースの対応は[一覧](own-plugins.md)へまとめています。CFはソースのみのプレリリース、ほかの6つにはplugin用tgzと`SHA256SUMS`があります。
+
+[実装記録](update-implementation.md)は、更新機能追加時の実行結果と、その後のPWA `0.3.0`・Glass UI `0.2.2`の公開報告を分けています。PWA・Glass UIの後続版は固定したREADME、ReleaseノートとPRを照合し、今回すべてのruntime試験を再実行したとは記載しません。Piの動的catalogと統合表示のIssue #6/#7は、再取得時もopenです。
+
+PWA `0.1.0`→`0.2.0`の設定欄欠落は隔離した実DSHで別途再現しました。ブラウザー再読み込みでは欠落が残り、Host再起動後に実行版と更新ボタンを確認しています。[再起動の章](update-and-restart.md)には確認順序と、基準DSHのClient metadataキャッシュ・installer・終了APIへの固定リンクがあります。この結果は利用者実機の再起動や最新7版の共存確認ではありません。

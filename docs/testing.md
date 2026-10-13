@@ -73,6 +73,14 @@ flakeを隠すために、無条件の再試行、timeout延長、全テスト�
 
 新規導入、旧版からの更新、OFF状態の維持、再起動、解除を確認します。Release公開後は、公開URLから取得したassetのchecksumと起動を確認します。CI内の未公開artifactの確認だけで終わりません。
 
+### 新規導入と旧版からの更新
+
+新しいClient entryや`dsh.client`宣言を追加した場合は、旧版を起動したまま更新する経路を選びます。導入版、新しい設定欄の有無、Host再起動後の実行版を記録します。PWA `0.1.0`→`0.2.0`では、新規導入で使えた設定欄が、旧版からの更新ではHost再起動まで出ませんでした。[再現条件](update-and-restart.md)を参照してください。
+
+更新処理を変えた場合は、最初の応答喪失、同一originでのprofile A→B→A、別Clientの最新操作、receipt保存中の外部更新、取消の終了コード、manifest不一致を確認します。前のIDを保存したまま戻り、同じ操作を再送しないことまで検査します。
+
+共存試験にはplugin版の組み合わせを残します。初期更新版7件の成功を、後続PWAのモバイル表示とGlass UIの描画変更へそのまま適用しません。今回共有するDOM・CSS・保存先から、追加検査を選びます。
+
 ## GitHub Actionsの最小構成
 
 通常のGitHub-hosted runnerを使います。PRではread権限とkeylessの確認を基本にし、release jobだけに必要なwrite権限を付けます。

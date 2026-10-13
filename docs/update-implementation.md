@@ -1,8 +1,8 @@
 # 更新機能の実装記録
 
-2026-10-13に、次の7プラグインへ更新確認・導入・結果照合を追加しました。基準はDSH `0.2.1-alpha.2`です。Issue作成時の調査は[一覧](own-plugins.md)に残しています。
+2026-10-13に、次の7プラグインへ更新確認・導入・結果照合を追加しました。基準はDSH `0.2.1-alpha.2`です。下表は更新機能追加時の公開版で、後続Releaseも含む現在の版は[一覧](own-plugins.md)を参照してください。
 
-| プラグイン | 公開版 | 実装PR | 追加修正PR |
+| プラグイン | 更新機能追加時の公開版 | 実装PR | 追加修正PR |
 | --- | --- | --- | --- |
 | Pi login | [v0.5.1](https://github.com/Aero123421/dsh-pi-login/releases/tag/v0.5.1) | [#10](https://github.com/Aero123421/dsh-pi-login/pull/10) | [#11](https://github.com/Aero123421/dsh-pi-login/pull/11) |
 | Search providers | [v0.3.1](https://github.com/Aero123421/dsh-search-providers/releases/tag/v0.3.1) | [#3](https://github.com/Aero123421/dsh-search-providers/pull/3) | [#4](https://github.com/Aero123421/dsh-search-providers/pull/4) |
@@ -13,6 +13,19 @@
 | CF | [v0.1.0-alpha.4](https://github.com/Aero123421/dsh-cf/releases/tag/v0.1.0-alpha.4) | [#6](https://github.com/Aero123421/dsh-cf/pull/6) | — |
 
 CFはプレリリースです。更新先で安定版とプレリリースを選びます。PWA・CFはGitHubタグのソースを導入でき、添付tgzを更新の前提にしません。Remoraはworkspaceのルートではなく、Releaseのプラグイン用tgzを使います。
+
+## 更新機能追加後の公開分
+
+2026-10-13 12:22 UTCから、次の追加Releaseを確認しました。タグ・mainのpackage・Release assetの一致と、固定コミットのREADME・Releaseノートを照合しています。以下の試験件数は実装側の報告で、この文書更新時の再実行結果ではありません。
+
+| 対象 | 追加された動作 | 根拠・検証報告 |
+| --- | --- | --- |
+| PWA `0.3.0` | 設定名をPWA・モバイルへ変更。幅768px未満の自動表示、左右ドロワー、ブラウザー別の自動・オン・オフ、設定ダイアログの配置を追加。package/bundle IDと更新先は維持 | [PR #6](https://github.com/Aero123421/dsh-pwa/pull/6)、[Releaseノート](https://github.com/Aero123421/dsh-pwa/blob/e2692d04699294c31b53e54224bc05d81e2b205e/docs/release-0.3.0.md)。33件のunit、実DSHへのtgz導入・再起動、767/768px境界、ドロワーの再選択・解除などを報告 |
+| Glass UI `0.2.2` | インラインコードの不透明度と文章プレビュー、透明度操作・会話更新・静止壁紙の描画処理を改善。設定保存や動く壁紙の挙動を維持 | [PR #11](https://github.com/Aero123421/dsh-glassui/pull/11)、[Releaseノート](https://github.com/Aero123421/dsh-glassui/blob/997333b69b1559e4784c58c46c9a01ce47142046/docs/release-0.2.2.md)。142件のunit、58件のintegration、DSH 2版で各14件のnative検査、公開tgzのsmokeを報告 |
+
+PWAのモバイル表示はDSH `0.2.1-alpha.2`のDOMを対象にし、オフで元の表示へ戻せます。Glass UIの性能数値はReleaseノートの測定条件に限ります。ブラウザーのタッチ・DPR・回転のエミュレーションは実機iOS/Android、GPU・電力・長時間利用の検証ではありません。Glass UIの[#8](https://github.com/Aero123421/dsh-glassui/issues/8)、[#9](https://github.com/Aero123421/dsh-glassui/issues/9)は継続確認の対象です。
+
+後続版を含む7件の共存試験は今回行っていません。下の共存結果は、冒頭の更新機能追加時の版に対するものです。
 
 ## レビューで再現した問題
 
@@ -53,7 +66,7 @@ ignore-workspace-root-check=true
 
 この設定はprofileルートへ依存を追加する意図を明示するものです。build scriptの実行許可や認証の解除とは別です。失敗時は成功表示にせず、旧版と保存設定が残ることも確認します。
 
-## 検証の範囲
+## 更新機能追加時の検証の範囲
 
 各repoの単体検査、配布entry・build・実際のDSHへの導入を確認し、設定されているCIを通しました。CFにはrepo方針に従いCIを追加していません。CFの通常検査ではJOSE/JWTとHTTP・WebSocketの認証境界を確認し、実cloudflaredの検査1件はバイナリー未指定で未実行です。
 
@@ -66,3 +79,5 @@ Glass UIはDSH `0.2.0-rc.2`と`0.2.1-alpha.2`で各12件の画面検査を通し
 tgz付きの公開版は、配布後にファイルを取得して`SHA256SUMS`と照合しました。CFはソースのみの配布なので、tgzがないことをエラーとは扱いません。
 
 macOS/Windows/Electronの画面、実Cloudflareアカウント・Tunnel接続、実機iOS/iPadOS/Androidへのホーム画面追加、実プロバイダーでの生成・ログインは今回の確認に含めません。
+
+その後、PWA `0.1.0`から`0.2.0`への更新で、新しい設定欄がサーバー再起動まで出ないことを実DSHで再現しました。新規導入の成功だけでは見つからない条件です。原因・操作順と、新しいClient entryを追加する際の確認は[更新後の反映と再起動](update-and-restart.md)にあります。

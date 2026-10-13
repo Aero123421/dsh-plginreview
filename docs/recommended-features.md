@@ -2,7 +2,7 @@
 
 7つの自作プラグインを比較すると、共通化したいのは版の確認、設定保存の結果、解除処理、診断情報です。ログインやクラウド資源の管理は、それを必要とするプラグインだけに持たせます。小さな言語パックやPWAに、認証・DB・独自の更新基盤まで追加する必要はありません。
 
-以下は2026-10-13 JSTの公開ソースに基づく提案です。対象版と更新Issueは[自作プラグイン一覧](own-plugins.md)、更新APIの詳細は[更新ボタンの設計](update-button.md)を参照してください。全機能を実装済みという意味ではありません。
+2026-10-13の更新機能追加と後続公開版を反映しています。現在の版・実装ファイルは[自作プラグイン一覧](own-plugins.md)、結果照合は[更新ボタンの設計](update-button.md)を参照してください。以下の共通項目はレビューの基準で、すべての提案機能を各プラグインに実装済みという意味ではありません。
 
 ## 共通で用意するもの
 
@@ -26,7 +26,7 @@
 
 ### 更新: Remoraの例
 
-Remoraの[配布物取得](https://github.com/Aero123421/dsh-remora/blob/ed7e99736b0cc8e72a956722fb6fc72fda927239/packages/dsh-remora/src/core/updates.ts)には、固定repository、plugin用asset名、checksum検証があります。一方、[導入呼び出し](https://github.com/Aero123421/dsh-remora/blob/ed7e99736b0cc8e72a956722fb6fc72fda927239/packages/dsh-remora/src/core/remora.ts)は完了を待たず、画面が先に成功表示します。この実装は候補取得の参考にはなりますが、完成した共通updaterとしての転用には修正が必要です。
+Remora `0.1.3`の[配布物取得](https://github.com/Aero123421/dsh-remora/blob/b7d6d85436806f6b6ac16736e5fb9df2f82cf406/packages/dsh-remora/src/core/updates.ts)には、固定repository、plugin用asset名、checksumと実manifestの検査があります。[導入・結果照合](https://github.com/Aero123421/dsh-remora/blob/b7d6d85436806f6b6ac16736e5fb9df2f82cf406/packages/dsh-remora/src/core/remora.ts)はprofile別に操作を記録し、切断後と再起動後に導入版・実行版を確認します。旧版が導入結果を待たずに成功表示した問題は[PR #6](https://github.com/Aero123421/dsh-remora/pull/6)で修正済みです。
 
 「確認」「ダウンロード」「導入」「再起動」「新しい実行版の確認」を別の状態として扱います。更新元がRelease asset、GitHub tag、ローカル開発pathのどれなのかも確認します。ローカル開発版を、ボタン1つで公開版へ置き換える設計にはしません。
 
@@ -55,17 +55,17 @@ CFの[controller](https://github.com/Aero123421/dsh-cf/blob/5da69eb4458640ec8f9e
 
 ## 各プラグインで優先すること
 
-| 対象 | すでに参考にできる実装 | 次に整える点 |
+| 対象 | 公開版で参考にできる実装 | 継続して確認する境界 |
 | --- | --- | --- |
-| Piログイン | 共通フッター、providerカード、credential保存、modelの選択 | モデル一覧取得と本体更新の区別。更新中のログイン状態と選択値の維持 |
-| 日本語化 | locale登録の解除、同梱font、日本語のときだけ適用するCSS | 版・更新操作の小さな入口。managerの有無と辞書登録を独立させる |
-| PWA | Hostの正式なrouteとHTML注入、ソース直配布 | 最初の版付きRelease。Client entryを加えるなら配布物検証も追加 |
-| 検索プロバイダー | 標準web_searchのprovider拡張、選択した追加ツールの登録 | 本体更新と設定維持。同名追加ツールを持つ他pluginとの競合方針 |
-| Remora | 版・protocol表示、local限定更新、停止・監査 | 導入結果に基づく表示と監査。受信中のサイズ上限、版検証 |
-| Glass UI | 保存結果の状態管理、独自DOM名、除外属性 | 更新UIとengineの分離。保存待ち編集と再起動の扱い |
-| CF | 所有資源のID、profile lock、Connectionから独立したcontroller | alpha対応の更新確認。pluginとcloudflaredの更新を分離 |
+| Piログイン | 共通フッターの更新操作、providerカード、credentialとmodel選択 | SDK更新・動的catalog・plugin更新の違い。新しい認証経路と既存選択 |
+| 日本語化 | 小さな更新設定欄、locale登録の解除、同梱font | 新しいDSHの翻訳キー、利用者指定font、manager不在とOFF時の動作 |
+| PWA | タグ付きRelease、Client設定欄、Hostのroute、モバイル表示 | Client entryなしの旧版からの更新。実機の追加・認証・復帰、他themeとのドロワー併用 |
+| 検索プロバイダー | 標準web_searchのprovider拡張、追加toolの選択、共通ヘッダーの更新 | 新しいproviderの実API、同名追加tool、既定値とキーの維持 |
+| Remora | 実行版・protocol表示、local限定更新、永続receiptと監査 | 自己更新の解除・再照合、Hub/CLIの別更新、proxy越しの管理拒否 |
+| Glass UI | 保存待ちの確定、更新UIとengineの分離、インラインコード設定 | 新しいDSHのDOM、PWAモバイルとの併用、実機の描画負荷・復帰 |
+| CF | 安定版/プレリリースの更新、所有ID、profile lock | 公開側からの更新拒否、メモリー内tokenの再入力、pluginとbinaryの別更新 |
 
-最初に直す対象は、既存ボタンが成功を誤表示するRemoraです。PWAは版付き配布を先に決めないと、更新の有無を比較する基準がありません。CFはalphaだけの状態で`/releases/latest`を使っても目的の候補を得られません。ほかの4つは既存配布の版・asset・設定画面を使って追加できます。
+7つの更新機能は公開済みで、対応Issueはclosedです。新しい拡張でも、導入元・互換性・操作結果・再起動後の実行版を同じ境界で確認します。CFのようなプレリリース配布は`/releases/latest`だけで候補を決めません。
 
 ## 診断情報の最小例
 
