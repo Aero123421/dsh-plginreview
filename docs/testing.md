@@ -30,6 +30,8 @@
 
 同じ方法で、保存失敗、接続切り替え、dispose後のcallback、キャンセルと開始の競合を確認できます。
 
+queueのcallbackは、非同期rejectと、Promiseを返す前の同期throwを別々に確認します。外部pluginのhelperでは、後者だけが呼び出し元をpendingにする条件を再現できました。[入力と確認結果](ecosystem/browser-and-routing.md)を参照してください。
+
 期限はfake clockで進めます。OAuthでは実際のフローの期限を境界にし、キャンセル・期限切れ・plugin timeoutの違いを確認します。
 
 ## 修正前でも通るテストを避ける

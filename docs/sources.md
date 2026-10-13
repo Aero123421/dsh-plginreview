@@ -63,3 +63,11 @@ DSHの固定コミットは、Piログイン・日本語化などの`upstream.js
 - [Semantic Versioning 2.0.0](https://semver.org/): 版の形式と順序。
 
 外部仕様は確認日に参照しています。固定コミットと違い、リンク先の説明が将来変わる可能性があります。
+
+## 公式・外部プラグインの追加調査
+
+[調査一覧](ecosystem/README.md)に外部12リポジトリの固定コミット、GitHub stars、npm downloadsを記録しています。公式は同じDSHコミットから、任意bundle 11種類と、後から導入するCodex・Claude Code連携を整理しています。
+
+追加調査では、更新・認証・model catalog・context注入・UI登録・processとprofileの所有を、主要な実行経路まで読みました。各章のfileリンクは、調べたコミットへ固定しています。
+
+公開npm配布物8種類の整合性・entry、ソースとnpm metadataのpeer条件、I/Oを伴わないqueue helperを確認しました。[配布物と互換性の結果](ecosystem/package-checks.md)には、実施した確認と、実DSH・実APIなど未実施の範囲を分けて記録しています。

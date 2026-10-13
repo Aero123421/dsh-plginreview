@@ -36,6 +36,8 @@ APIが返すモデルIDだけでは、reasoning、画像、tool call、context�
 
 SDKが実装していない認証フローやstream APIまで、一覧取得で自動対応することはできません。
 
+動的catalogを実装している外部pluginの例として、[Subscriptionsの取得loop・cache・account管理](ecosystem/providers-and-memory.md)を調べています。Piへ取り込む場合も、providerの所有者とSDKの能力を確認します。
+
 ## GitHub指定の更新
 
 `github:OWNER/REPO#v0.1.0`は、指定した版を導入するための指定です。GitHubに`v0.1.1`を作っても、導入済みprofileが自動でその版に切り替わるわけではありません。

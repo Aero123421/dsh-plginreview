@@ -14,6 +14,8 @@
 
 根拠: [標準画面のupdate処理](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/client/ui-plugin-manager/src/client/manager-store.ts)。
 
+第三者の`dshmarket`には、plugin自身の更新ボタンが使うAPIがあります。確認版は`beta`で、DSH標準の汎用APIではありません。採用する場合のcapability確認と、操作記録の残る期間は[マーケットの比較](ecosystem/marketplaces-and-updates.md)にあります。
+
 ## 画面の状態と文言
 
 更新確認とインストールを別操作にします。確認ボタンを押しただけではコードを差し替えません。

@@ -18,6 +18,8 @@ Origin、Host、forwarding header、実接続元、DSH側の認証を、配備�
 
 DSHの既存WebServer・認証・routeを使える機能に、別の無認証サーバーを追加しないようにします。PWAの静的manifestやiconを公開することと、操作APIを公開することは区別します。
 
+UI向けのファイル操作も、Sessionのworkspace制限を自動で引き継ぐとは限りません。[Better Sidebarの調査](ecosystem/ui-and-runtimes.md)では、workspaceという関数名を残しながら、Host userの到達できるpathへ広げている仕様を確認しています。名前と実際の権限を照合します。
+
 ## 保存を完了させる境界
 
 設定や資格情報は、所有するサービスの保存APIを使います。原子的なファイル置換と、複数processによるread-modify-writeの排他は別です。

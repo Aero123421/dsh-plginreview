@@ -87,6 +87,8 @@ PWAのように実行可能なJSを直接同梱する構成なら、不要なビ
 
 生成物をGitに入れる場合は、固定した依存から再ビルドし、追跡された生成物と一致するCIを置きます。フォント、画像、第三者ライセンスもpackの対象に含めます。
 
+外部pluginには、Gitに生成物を置かず、`prepare`で生成する構成もあります。その場合はbuildに必要な依存と許可、profileからの解決を含めて検証します。[外部packageの確認結果](ecosystem/package-checks.md)では、Gitのentryとnpm tarballのentryを別々に調べています。
+
 ## 最後に試す導入経路
 
 1. 新しい隔離環境のWeb profileへ、公開予定タグと同じ内容を導入する。
