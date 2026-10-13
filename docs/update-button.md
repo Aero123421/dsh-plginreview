@@ -1,10 +1,10 @@
 # 更新ボタンの設計
 
-この章は、第三者プラグインに更新機能を追加するときの設計案です。DSH `0.2.1-alpha.2`の実APIと、Remoraの更新実装を材料にしています。そのまま貼って動く完成プラグインではありません。
+この章は、第三者プラグインに更新機能を追加するときの設計指針です。DSH `0.2.1-alpha.2`の実APIと、自作7プラグインの更新実装・修正を材料にしています。実装ファイルと公開版は[一覧](own-plugins.md)、再現した競合と検証は[実装記録](update-implementation.md)へまとめています。
 
 基本の処理は、Hostが更新候補を調べ、検証した配布物をDSHのplugin managerへ渡し、実行結果に応じて画面を更新する形です。プラグイン自身でpnpm起動・profile編集・tar展開を実装し直す必要はありません。
 
-自作7プラグインについて、既存UI・配布形式・権限に合わせた実装例をIssueに分けています。[対象とIssueの一覧](own-plugins.md)を参照してください。PWAのRelease未作成、CFのプレリリース、Remoraのworkspace構成は、それぞれ更新候補の選び方が異なります。
+PWAにはタグ付きReleaseと更新UIが入りました。CFはプレリリースのソース配布、Remoraはworkspace内のbundleをtgzで配布するため、同じ候補取得・導入指定を全プラグインへ当てはめません。
 
 ## まず標準の機能を確認する
 
@@ -31,12 +31,14 @@
 | 互換性不明・非対応 | 理由とReleaseへのリンク。成功扱いで導入しない |
 | ダウンロード・検証中 | 進行状態。キャンセルの可否を実処理と合わせる |
 | 導入中 | 「インストール中…」。連打を防ぐ |
-| 導入済み・再起動待ち | 「更新を適用するにはDSHを再起動してください」 |
+| 導入済み・再起動待ち | 「更新を適用するにはDSHを再起動してください」。Webではサーバー側の再起動を案内 |
 | 実行版の反映を確認 | 「更新しました」と新しい実行版 |
 | 失敗 | 失敗段階と対処。再試行はこの操作を起点にする |
 | 通信切断・結果不明 | 「結果を確認中…」。導入要求を再送せず照合する |
 
 HTTPやRPCが成功しただけで「更新しました」にしません。再読み込みボタンと更新確認ボタンのアイコンが同じでも、文言と処理を区別します。
+
+標準詳細の導入版・Running表示も、設定UIが反映された証明ではありません。旧版の「Client packageではない」判定がHostに残るケースは、[更新後の反映と再起動](update-and-restart.md)を参照してください。
 
 ## Host側で候補を固定する
 
@@ -117,6 +119,20 @@ Clientの状態は、接続と要求の世代で管理します。古い確認�
 
 `plugin-manager/install-state`・`output`の通知はrequestIdと照合します。画面全体の一覧再取得で、進行中操作の結果まで捨てないようにします。
 
+### 同じブラウザーから別profileへ接続する
+
+導入要求を送る前に操作IDを決め、保存します。ただし、originだけで保存先を分けると、同じURLでprofileを切り替えた際に別profileのIDを持ち込みます。認証済みHostの不透明なprofile識別子を取得してから、そのprofileの保存記録を読みます。
+
+導入要求にも期待するprofile識別子を含め、Hostで一致を確認します。古いprofile向けの遅延要求・成功・失敗は、新しい接続の状態へ反映しません。保存記録には操作ID・候補・結果を置き、資格情報や個人のpathを混ぜません。
+
+Hostが保持する最新操作を優先し、ブラウザーの古いIDで上書きしないようにします。最初の応答を失った場合は、同じprofileの保存IDで照合します。未確定操作は候補版が変わっても先に照合し、新しい導入で消しません。実際の修正は[Pi #11](https://github.com/Aero123421/dsh-pi-login/pull/11)、[Search #4](https://github.com/Aero123421/dsh-search-providers/pull/4)、[日本語パック #4](https://github.com/Aero123421/dsh-japanese/pull/4)にあります。
+
+### 導入直前と結果受信後に確認する
+
+receiptの保存など、最後の非同期処理を待つ間にも、別Clientが新しい版を入れる場合があります。installerを呼ぶ直前に導入元・導入版・ON/OFF・解除状態を読み直し、既に同じ版または新しい版なら古い候補を導入しません。
+
+結果を受け取った後は、`application`に加え、対象packageのmanifest版、`installed`、`error`、`readOnly`を照合します。不一致を再起動待ちや更新完了にせず、結果不明として扱います。installerが取消を確定した場合は、取消に伴うpackage processの非ゼロ終了より`application: cancelled`を優先します。
+
 ## キャンセルと自己更新
 
 ダイアログを閉じること、HTTP要求をAbortすること、Hostの導入をキャンセルすることを分けます。`cancelInstall()`の`too-late`や`not-running`を「キャンセル完了」に変換しません。
@@ -156,11 +172,9 @@ Client: 切断後に再接続
 
 更新を許す場所は、DSHの権限モデルと配備方法に合わせます。URLが`localhost`だからという理由だけで管理操作を許可しません。Remoraのローカル限定処理は、そのプラグイン固有の方針です。
 
-## Remoraの実装から使える部分と注意点
+## 旧Remoraの問題と修正後の参照先
 
-確認コミットの[updates.ts](https://github.com/Aero123421/dsh-remora/blob/ed7e99736b0cc8e72a956722fb6fc72fda927239/packages/dsh-remora/src/core/updates.ts)は、固定repositoryのRelease取得、配布名の照合、SHA-256検証、Host側への保存を実装しています。
-
-一方で、そのまま完成例としてコピーする前に、次を見直す必要があります。
+旧`0.1.1`の[updates.ts](https://github.com/Aero123421/dsh-remora/blob/ed7e99736b0cc8e72a956722fb6fc72fda927239/packages/dsh-remora/src/core/updates.ts)は、固定repositoryのRelease取得、配布名の照合、SHA-256検証、Host側への保存を実装していました。一方、導入結果を待たずに返す問題などがありました。以下は旧版のレビュー項目です。
 
 - 無効な版を「同じ版」と扱う比較。
 - 全体読み込み後にサイズ検査するダウンロード。
@@ -169,6 +183,8 @@ Client: 切断後に再接続
 - `ChangeResult`の失敗・再起動要求と、更新前のbundle状態の扱い。
 
 pathが返ったことは「ダウンロードが用意できた」の確認であり、「新しい版が動いた」の確認にはなりません。
+
+[PR #6](https://github.com/Aero123421/dsh-remora/pull/6)で結果照合、profile別の記録、導入済み版との比較、上限付きの取得と実manifestの検査を修正し、`0.1.3`で公開しました。現在の例には[updates.ts](https://github.com/Aero123421/dsh-remora/blob/b7d6d85436806f6b6ac16736e5fb9df2f82cf406/packages/dsh-remora/src/core/updates.ts)と[remora.ts](https://github.com/Aero123421/dsh-remora/blob/b7d6d85436806f6b6ac16736e5fb9df2f82cf406/packages/dsh-remora/src/core/remora.ts)を参照します。過去の指摘を、現在も未修正の問題として案内しません。
 
 ## 必要なテスト
 

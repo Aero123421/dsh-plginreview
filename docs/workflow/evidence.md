@@ -8,6 +8,8 @@
 
 自作6repositoryについて、Issue、PR、Release、Actions run一覧を取得しました。PRをIssue件数から除外し、Actionsの失敗stepも照合しました。集計は2026-10-13 03:04 UTC時点です。
 
+この集計は最初の調査時点のまま残しています。後から追加した更新操作のprofile分離とPWAの設定欄欠落の事例は、下表の件数や暦時間へ加算していません。7プラグインの現在版・更新Issueの状態は[公開版一覧](../own-plugins.md)、追加確認の取得範囲は[参照元](../sources.md#更新実装後と後続releaseの確認)にあります。
+
 | repository | Issue | PR | merge済みPR | 公開Release | Actions run | failure run |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | [dsh-pi-login](https://github.com/Aero123421/dsh-pi-login) | 5 | 3 | 3 | 4 | 54 | 5 |

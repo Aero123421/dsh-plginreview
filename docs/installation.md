@@ -9,20 +9,28 @@
 公開済みGlass UIの例です。
 
 ```text
-github:Aero123421/dsh-glassui#v0.1.0
+github:Aero123421/dsh-glassui#v0.2.2
 ```
 
 インストール結果に従って有効化・再起動します。確認版のDSHでは、インストール済みパッケージを差し替えた場合に`restart-required`を返します。
+
+Web版で再起動が必要な場合は、DSHサーバーを終了・起動し直してからブラウザーを再読み込みします。ブラウザーの再読み込みだけでは、HostのClient metadataキャッシュは更新されません。標準詳細が新しい版・Runningでも、新しい設定欄が出ない場合があります。[再現例と確認手順](update-and-restart.md)を参照してください。
 
 ## CLIから入れる
 
 Web profileを指定します。
 
 ```sh
-dsh plugin --profile web add -w github:Aero123421/dsh-glassui#v0.1.0
+dsh plugin --profile web add -w github:Aero123421/dsh-glassui#v0.2.2
 ```
 
 `-w`はpnpm workspace rootへの追加を明示します。PWAの導入で`ERR_PNPM_ADDING_TO_ROOT`が発生したため、各プラグインの公開手順ではこの形を使っています。すべてのDSH版・profileでこのエラーが出るという意味ではありません。
+
+画面やプラグインの更新ボタンは、CLIに書いた`-w`を引き継ぐ操作ではありません。DSH `0.2.1-alpha.2`とpnpm `11.7.0`で画面側に同じエラーが出た場合の対処は、[対象profileのworkspace設定](update-implementation.md#dshとpnpmの導入条件)にあります。
+
+確認版のCLIは新規bundleを有効化しますが、既存依存の差し替えではOFFのbundleを再有効化しません。根拠は[package操作のreconcile](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/boot/plugin-manager/src/operations.ts)です。一方、更新ボタンが呼ぶ`installBundle()`は`enabled`を省略すると有効化するので、更新前の値を明示します。CLIとこのAPIの既定値を混同しないでください。
+
+OFF中はプラグイン独自の設定欄が出ません。標準画面も、Hostから`installTarget`がある項目だけに更新操作を出します。第三者pluginのすべてに標準更新ボタンがある前提で案内せず、利用できない場合は元の導入元を指定したCLIを使い、更新後のON/OFFを確認します。
 
 タグを省略すると、取得時のリポジトリの既定ブランチを使う指定になります。再現可能な導入には、公開済みのタグまたはコミットを指定します。
 
@@ -98,6 +106,8 @@ PWAのように実行可能なJSを直接同梱する構成なら、不要なビ
 5. 旧版の設定を持つprofileで更新し、資格情報・設定・ON/OFF状態を確認する。
 
 workspace symlinkや開発用node_modulesを使った確認だけでは、配布物の確認を代替できません。
+
+上のGlass UI `0.2.2`指定は公開タグ・package・実装側の配布smoke報告を照合しています。この文書更新でコマンドを再実行した結果ではありません。各プラグインの現在の導入元・更新入口は[一覧](own-plugins.md)を参照してください。
 
 ## 根拠
 

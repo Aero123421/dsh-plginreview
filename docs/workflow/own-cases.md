@@ -1,6 +1,6 @@
 # 自作pluginの修正履歴
 
-時刻はUTCです。Actionsの成否は公開run記録、ローカル・実機の検証はPR作者の報告として扱います。今回pluginのテストを再実行したものではありません。[調査方法](evidence.md)に件数と判断の限界があります。
+時刻はUTCです。1〜9は最初の公開履歴調査、10〜11は2026-10-13の更新実装後に追加した事例です。Actionsの成否は公開run記録、ローカル・実機の検証はPR作者の報告として扱い、11のPWAは別途行った再現を記載しています。この文書更新でpluginの試験を再実行したものではありません。[調査方法](evidence.md)に件数と判断の限界があります。
 
 ## 1. Pi: Issueの再現条件が修正へ届いた例
 
@@ -70,7 +70,7 @@ PRはunit、pack一覧、隔離DSH Web profileのadd/remove成功を報告し、
 
 再利用するべきものは宿主・profile・取得元を固定した確認方法です。workspace rootと公開bundleの位置が違うRemoraへ、同じコマンドを確認なしにコピーする方針にはしません。
 
-調査時点でPWAのGitHub Releasesは0件です。GitHub source導入があるため、それだけで公開停止とは言えません。add/removeの成功も、iOS・Androidのホーム画面追加や更新後のアイコン反映を確認したことにはなりません。[PR #3](https://github.com/Aero123421/dsh-pwa/pull/3)のアイコン変更は表示方針の変更で、#2の障害再発に数えていません。
+この事例を調べた時点ではPWAのGitHub Releasesは0件でした。その後の公開版は[一覧](../own-plugins.md)で確認できます。GitHub source導入があるため、Releaseがないことだけで公開停止とは言えません。add/removeの成功も、iOS・Androidのホーム画面追加や更新後のアイコン反映を確認したことにはなりません。[PR #3](https://github.com/Aero123421/dsh-pwa/pull/3)のアイコン変更は表示方針の変更で、#2の障害再発に数えていません。
 
 ## 5. 検索: 公開とCI終了が並行し、後からtestの競合を直した例
 
@@ -134,3 +134,21 @@ plugin自体のnpm install成功から、DSHのplugin managerもnpmだけで動�
 公開tagは#2のmerge SHA、現在mainは#3のmerge SHAです。tagは書き換えていません。workflow修正は次回の配布工程に効き、既存Releaseのasset修復とは別です。
 
 原因の分析は、GitHub導入用生成物と、packして公開するfile集合の境界が重なったことです。package内のfile検査、checksum、来歴の確認は、Release全体に不要assetがないことを検査しません。build担当が「distがcheckoutに存在するようになる」とrelease担当へ渡し、公開対象一覧を照合する確認が、この追加修正を減らせます。
+
+## 10. 更新機能: 配布後に接続先の識別を追加した例
+
+更新機能追加後、Pi [#11](https://github.com/Aero123421/dsh-pi-login/pull/11)、Search [#4](https://github.com/Aero123421/dsh-search-providers/pull/4)、日本語パック [#4](https://github.com/Aero123421/dsh-japanese/pull/4)でprofile別の操作ID復元を修正しました。初期版の後にそれぞれ`0.5.1`、`0.3.1`、`0.2.1`で公開しています。
+
+問題は、同じブラウザー・同じoriginから接続先profileを替えると、前の操作IDを新しいHostへ照合することでした。通信世代を更新する処理だけでは、ブラウザーの永続記録の所有先は変わりません。認証済みHostからprofile識別子を先に取得し、保存キーと導入要求をそのprofileに結び付ける修正が必要でした。
+
+さらに、Hostの最新操作と古いClientの記録、receipt保存中の外部更新を照合しています。単一Clientの正常更新だけでは、元のIDの保持・復帰と、別Clientが導入した新版の維持を確認できません。[実装記録](../update-implementation.md)に検証範囲をまとめています。
+
+横展開した処理では、各repoの保存キー・route・package名を読むだけでなく、同じoriginのprofile A→B→A、最初の応答喪失、遅れて届く古い要求まで受け入れ条件に含めます。コードの共有が、状態の所有者の共有を意味するとは扱いません。
+
+## 11. PWA: 導入済み版と設定UIの反映がずれた例
+
+更新後の利用者画面では、PWA `0.2.0`が標準詳細でRunningなのに、設定欄にPWAがありませんでした。隔離した実DSHで`0.1.0`を起動したまま`0.2.0`へ更新すると、ブラウザー再読み込みだけでは欄が出ず、Host再起動後に実行版と更新ボタンを確認できました。
+
+原因はHostのClient metadataキャッシュで、旧版の「Client packageではない」判定も再起動まで残ります。ソースと操作順は[再起動の章](../update-and-restart.md)へ記録しています。利用者の画面を根拠に原因を断定せず、旧版からの更新とサーバー再起動を別環境で比較しました。
+
+新規導入のE2Eと標準詳細の版表示は成功しても、この操作順を通らなければ見つかりません。Client entryを初めて追加するときは、既存利用者の更新経路と、どのプロセスを再起動するかを配布側へ渡します。これはDSHの読み込み仕様の確認と利用者案内で、プラグインが再起動機能を実装した事例ではありません。
