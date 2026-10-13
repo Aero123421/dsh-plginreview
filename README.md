@@ -55,6 +55,6 @@ DeepSeek Harness向けに作ったプラグインのレビューで見つかっ�
 
 Issueから解決までの分析では、自作6repositoryのIssue・PR・CI・Releaseと、外部6事例・公式discussionを追いました。時刻と解決範囲、追加修正の理由は[フローの分析](docs/workflow/README.md)、取得範囲と判断の限界は[調査方法](docs/workflow/evidence.md)に記録しています。
 
-更新機能の追加調査ではCFを含む自作7repositoryを確認し、それぞれに実装例付きIssueを作成しました。[一覧](docs/own-plugins.md)に対象版とIssue、[干渉対策](docs/plugin-coexistence.md)に共有する資源と併用確認の手順があります。今回の追加は調査・文書化で、各更新ボタンの実装完了を意味しません。
+更新機能の追加調査ではCFを含む自作7repositoryを確認し、それぞれに実装例付きIssueを作成しました。[一覧](docs/own-plugins.md)にIssue作成時の対象版、[干渉対策](docs/plugin-coexistence.md)に共有する資源と併用確認の手順があります。その後の実装・レビュー・公開版と、DSH/pnpmの導入条件は[実装記録](docs/update-implementation.md)に記録しています。
 
 新しい問題を追加するときは、発生条件、影響、修正、失敗を再現する確認方法、PRまたはコミットを残してください。未検証のAPI接続やOSを「対応済み」に含めないでください。
