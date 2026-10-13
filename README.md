@@ -4,10 +4,13 @@ DeepSeek Harness向けに作ったプラグインのレビューで見つかっ�
 
 自作の日本語化、Piログイン、PWA、検索プロバイダー、Remora、Glass UI、CFに加え、公式bundleと外部実装を調べています。最初の12件の比較後、人気プラグインと周辺実装32リポジトリを深掘りしました。確認したコミットと修正PRは[参照元](docs/sources.md)にあります。
 
+開発エージェント向けの共通ルールと19種のSkillsを [.agents](.agents/README.md) に置いています。DSH公式の資料を独立plugin向けに調整し、各Skillを別のリポジトリへ持ち込める形にしています。
+
 ## 読む場所
 
 | やりたいこと | 文書 |
 | --- | --- |
+| 開発エージェントの指示とSkillsを用意する | [.agentsの使い方と一覧](.agents/README.md) |
 | レビューを始める | [レビューの進め方](docs/review.md) |
 | Issueから公開・利用者確認までの詰まりを調べる | [解決フローの分析](docs/workflow/README.md) |
 | 過去の不具合を調べる | [よくあった問題と修正例](docs/common-problems.md) |
