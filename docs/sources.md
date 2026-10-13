@@ -71,3 +71,9 @@ DSHの固定コミットは、Piログイン・日本語化などの`upstream.js
 追加調査では、更新・認証・model catalog・context注入・UI登録・processとprofileの所有を、主要な実行経路まで読みました。各章のfileリンクは、調べたコミットへ固定しています。
 
 公開npm配布物8種類の整合性・entry、ソースとnpm metadataのpeer条件、I/Oを伴わないqueue helperを確認しました。[配布物と互換性の結果](ecosystem/package-checks.md)には、実施した確認と、実DSH・実APIなど未実施の範囲を分けて記録しています。
+
+## Issueから解決までの追加調査
+
+[自作の履歴](workflow/own-cases.md)では上の修正PRに加え、Issue、commit列、Actions run/job、公開時刻、現在のasset一覧を照合しています。[外部の履歴](workflow/ecosystem-cases.md)はdsh-market #497/#824/#788、TUI #60/#183、modlens #34と関連する公式discussionを追っています。
+
+一次ソースは各事例の該当箇所にリンクしています。公開記録の事実、作者の検証報告、分析上の推論を区別し、取得件数と時刻の扱いは[調査方法](workflow/evidence.md)へまとめています。

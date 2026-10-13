@@ -98,6 +98,8 @@ checksumは配布物の破損・取り違えの検出に使います。attestati
 
 作業結果は[リリース確認テンプレート](../templates/release-checklist.md)に残せます。
 
+Issue close、merge、配布、利用者の再確認を結ぶ記録は[解決までの進め方](workflow/resolution.md)にあります。Release job成功後のasset修正と、公開後のUI修正は[自作pluginの履歴](workflow/own-cases.md)で追っています。
+
 ## 根拠
 
 - [Glass UIの公開workflow](https://github.com/Aero123421/dsh-glassui/blob/b97fa776424b209f72625f81327f7be3c559b6f7/.github/workflows/release.yml)

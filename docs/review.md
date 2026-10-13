@@ -91,3 +91,5 @@ Clientがボタンを隠しても、RPCを直接呼べる場合があります�
 報告は[テンプレート](../templates/review-report.md)に記録できます。具体例は[よくあった問題](common-problems.md)、確認の組み方は[テストとCI](testing.md)にあります。
 
 公式・外部の実装を比較する際は、[調査一覧](ecosystem/README.md)と[配布物・版条件の結果](ecosystem/package-checks.md)も使えます。紹介文、ソース読解、単独検証、実DSHでの結果を区別して報告します。
+
+Issueの再現条件から修正・レビュー・公開を結ぶ方法と、複数agentへの引き継ぎは[解決までの進め方](workflow/resolution.md)にあります。[履歴の分析](workflow/README.md)では、最初のCI成功後に前提や配布工程を修正した例を追っています。

@@ -87,6 +87,8 @@ Windows・macOSで差があるkeychainやprocess処理には、そのOSのjobま
 
 この文書リポジトリの編集だけなら、Markdownの構造・内部リンク・参照の確認を行います。plugin runtimeを変えていないのに、過去のplugin全テストを実行したことにはしません。
 
+成功したPR CIからmerge後の失敗へ進んだ例や、環境・test・製品の原因の分け方は[詰まりどころの分析](workflow/bottlenecks.md)にあります。件数や暦時間を品質・工数へ変換しない扱いは[調査方法](workflow/evidence.md)を参照してください。
+
 ## 実例
 
 - [Piの取得競合・期限テスト](https://github.com/Aero123421/dsh-pi-login/pull/3)
