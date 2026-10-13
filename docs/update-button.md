@@ -4,6 +4,8 @@
 
 基本の処理は、Hostが更新候補を調べ、検証した配布物をDSHのplugin managerへ渡し、実行結果に応じて画面を更新する形です。プラグイン自身でpnpm起動・profile編集・tar展開を実装し直す必要はありません。
 
+自作7プラグインについて、既存UI・配布形式・権限に合わせた実装例をIssueに分けています。[対象とIssueの一覧](own-plugins.md)を参照してください。PWAのRelease未作成、CFのプレリリース、Remoraのworkspace構成は、それぞれ更新候補の選び方が異なります。
+
 ## まず標準の機能を確認する
 
 確認版の標準プラグイン画面は、Hostから`installTarget`が提供され、`availability`が`installation`ではない項目を更新対象にしています。更新前の`enabled`を次のインストールへ渡します。

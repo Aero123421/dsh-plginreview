@@ -4,6 +4,8 @@
 
 ## 確認したソース
 
+この表は最初のレビューの確認版です。更新機能・干渉対策の追加調査で確認した新しい版は、末尾の「自作7プラグインの追加調査」から参照できます。
+
 | 対象 | 確認版 | 固定したソース |
 | --- | --- | --- |
 | DeepSeek Harness | `0.2.1-alpha.2` | [d743267](https://github.com/deepseek-ai/deepseek-harness/tree/d743267388641bc76f17c45ce8b4c231aed1d32c) |
@@ -77,3 +79,11 @@ DSHの固定コミットは、Piログイン・日本語化などの`upstream.js
 [自作の履歴](workflow/own-cases.md)では上の修正PRに加え、Issue、commit列、Actions run/job、公開時刻、現在のasset一覧を照合しています。[外部の履歴](workflow/ecosystem-cases.md)はdsh-market #497/#824/#788、TUI #60/#183、modlens #34と関連する公式discussionを追っています。
 
 一次ソースは各事例の該当箇所にリンクしています。公開記録の事実、作者の検証報告、分析上の推論を区別し、取得件数と時刻の扱いは[調査方法](workflow/evidence.md)へまとめています。
+
+## 自作7プラグインの追加調査
+
+2026-10-13 14:00 JSTに公開metadataとソースを追加取得しました。[自作プラグイン一覧](own-plugins.md)に7つの固定SHA、package版、Releaseと更新Issueを記載しています。Piは`0.4.1`、Glass UIは`0.1.2`を改めて確認し、CF `0.1.0-alpha.3`を追加しました。
+
+[搭載する機能](recommended-features.md)と[干渉対策](plugin-coexistence.md)は、その固定ソースの主要処理から比較した分析です。登録・解除、CSS、辞書、tool、credential、設定競合、接続の寿命、proxyと管理権限、processとクラウド資源の所有を扱っています。実装から確認したことと、提案・今後の併用確認を区別しています。
+
+この追加調査ではruntimeを変更・起動していません。新規文書のMarkdown・内部リンク・引用先を検証し、Issueには実装時に必要な確認項目を記載しています。過去のReleaseのテスト結果を、今回の全組み合わせの検証結果として扱いません。

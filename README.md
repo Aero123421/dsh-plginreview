@@ -2,7 +2,7 @@
 
 DeepSeek Harness向けに作ったプラグインのレビューで見つかった問題と、インストール・更新・配布の手順をまとめています。次のプラグインを作るときや、既存の実装を見直すときに使うための文書です。
 
-自作の日本語化、Piログイン、PWA、検索プロバイダー、Remora、Glass UIに加え、公式bundleと外部12リポジトリの実装も調べています。確認したコミットと修正PRは[参照元](docs/sources.md)にあります。
+自作の日本語化、Piログイン、PWA、検索プロバイダー、Remora、Glass UI、CFに加え、公式bundleと外部12リポジトリの実装も調べています。確認したコミットと修正PRは[参照元](docs/sources.md)にあります。
 
 ## 読む場所
 
@@ -15,6 +15,9 @@ DeepSeek Harness向けに作ったプラグインのレビューで見つかっ�
 | UIやCLIから導入できるようにする | [インストールとパッケージ構成](docs/installation.md) |
 | 更新の種類と追従方針を決める | [プラグイン・モデル・DSHの更新](docs/updates.md) |
 | 設定画面に更新ボタンを作る | [更新ボタンの設計](docs/update-button.md) |
+| 自作7プラグインの更新Issueと実装案を確認する | [自作プラグイン一覧](docs/own-plugins.md) |
+| 次のプラグインに持たせる機能を決める | [搭載する機能](docs/recommended-features.md) |
+| 他プラグインとの併用を設計する | [干渉を避ける実装と確認項目](docs/plugin-coexistence.md) |
 | DSHに合う設定画面を作る | [UI・日本語化・フォント](docs/ui.md) |
 | 認証、モデル、検索ツールを追加する | [プロバイダーとツールの拡張](docs/integration.md) |
 | Hostの権限や保存処理を見直す | [権限・保存・外部通信](docs/security-and-storage.md) |
@@ -51,5 +54,7 @@ DeepSeek Harness向けに作ったプラグインのレビューで見つかっ�
 外部pluginは主要処理のソース比較と、公開npm配布物8種類の確認を行いました。版条件の照合とqueue helperの単独検証は[確認結果](docs/ecosystem/package-checks.md)にあります。全pluginの実起動・実APIを確認したものではありません。
 
 Issueから解決までの分析では、自作6repositoryのIssue・PR・CI・Releaseと、外部6事例・公式discussionを追いました。時刻と解決範囲、追加修正の理由は[フローの分析](docs/workflow/README.md)、取得範囲と判断の限界は[調査方法](docs/workflow/evidence.md)に記録しています。
+
+更新機能の追加調査ではCFを含む自作7repositoryを確認し、それぞれに実装例付きIssueを作成しました。[一覧](docs/own-plugins.md)に対象版とIssue、[干渉対策](docs/plugin-coexistence.md)に共有する資源と併用確認の手順があります。今回の追加は調査・文書化で、各更新ボタンの実装完了を意味しません。
 
 新しい問題を追加するときは、発生条件、影響、修正、失敗を再現する確認方法、PRまたはコミットを残してください。未検証のAPI接続やOSを「対応済み」に含めないでください。
