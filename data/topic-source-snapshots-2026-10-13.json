@@ -1,0 +1,296 @@
+{
+  "topic_snapshot_completed_at": "2026-10-13T13:10:09.899846+00:00",
+  "dsh_reference_version": "0.2.1-alpha.2",
+  "dsh_reference_commit": "d743267388641bc76f17c45ce8b4c231aed1d32c",
+  "note": "Stars are from the topic snapshot; source commits were retrieved separately. The list includes the EverOS adapter migration destination.",
+  "repositories": [
+    {
+      "repository": "dsh-market/dsh-market",
+      "commit": "9afd39d947f68e1299a327ead6ce1be7441cd4b2",
+      "source_url": "https://github.com/dsh-market/dsh-market/tree/9afd39d947f68e1299a327ead6ce1be7441cd4b2",
+      "default_branch": "main",
+      "topic_search_rank": 29,
+      "stars_at_topic_snapshot": 6366,
+      "analysis": "docs/ecosystem/deep-ui-updates.md"
+    },
+    {
+      "repository": "omdsh-dev/DSH-better-sidebar",
+      "commit": "d0a47bed1175e8214fc45bacf8535cc0b4d386a0",
+      "source_url": "https://github.com/omdsh-dev/DSH-better-sidebar/tree/d0a47bed1175e8214fc45bacf8535cc0b4d386a0",
+      "default_branch": "main",
+      "topic_search_rank": 39,
+      "stars_at_topic_snapshot": 4142,
+      "analysis": "docs/ecosystem/deep-ui-updates.md"
+    },
+    {
+      "repository": "zhu1090093659/dsh-web",
+      "commit": "1ba416adaf54ee811c5c596307e82789a9bb9586",
+      "source_url": "https://github.com/zhu1090093659/dsh-web/tree/1ba416adaf54ee811c5c596307e82789a9bb9586",
+      "default_branch": "dev",
+      "topic_search_rank": 22,
+      "stars_at_topic_snapshot": 8694,
+      "analysis": "docs/ecosystem/deep-ui-updates.md"
+    },
+    {
+      "repository": "ccch1mneyyy/dsh-TUI",
+      "commit": "d18dc5b0e27a5502c967349a78e4d535f31c9de2",
+      "source_url": "https://github.com/ccch1mneyyy/dsh-TUI/tree/d18dc5b0e27a5502c967349a78e4d535f31c9de2",
+      "default_branch": "main",
+      "topic_search_rank": 36,
+      "stars_at_topic_snapshot": 4536,
+      "analysis": "docs/ecosystem/deep-ui-updates.md"
+    },
+    {
+      "repository": "anywhere-labs/dsh-desktop",
+      "commit": "6bc000ba031700b2252cdb73c2b4f1d288a97c56",
+      "source_url": "https://github.com/anywhere-labs/dsh-desktop/tree/6bc000ba031700b2252cdb73c2b4f1d288a97c56",
+      "default_branch": "master",
+      "topic_search_rank": 11,
+      "stars_at_topic_snapshot": 30668,
+      "analysis": "docs/ecosystem/deep-ui-updates.md"
+    },
+    {
+      "repository": "bowenliang123/dsh-context",
+      "commit": "a5438855d7bbc1ab9f1c36b20dbc45564716b052",
+      "source_url": "https://github.com/bowenliang123/dsh-context/tree/a5438855d7bbc1ab9f1c36b20dbc45564716b052",
+      "default_branch": "main",
+      "topic_search_rank": 58,
+      "stars_at_topic_snapshot": 2069,
+      "analysis": "docs/ecosystem/deep-ui-updates.md"
+    },
+    {
+      "repository": "MeteorNOX/DeepSeek-Balance-Whale-Widget",
+      "commit": "5247dd6813d6e4430728f39ccc63d43cda046022",
+      "source_url": "https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget/tree/5247dd6813d6e4430728f39ccc63d43cda046022",
+      "default_branch": "main",
+      "topic_search_rank": 35,
+      "stars_at_topic_snapshot": 4681,
+      "analysis": "docs/ecosystem/deep-ui-updates.md"
+    },
+    {
+      "repository": "Small-tailqwq/dsh-deep-whale",
+      "commit": "bcb12f15a19590e6d0e9890bd498590fae3c58df",
+      "source_url": "https://github.com/Small-tailqwq/dsh-deep-whale/tree/bcb12f15a19590e6d0e9890bd498590fae3c58df",
+      "default_branch": "main",
+      "topic_search_rank": 52,
+      "stars_at_topic_snapshot": 2565,
+      "analysis": "docs/ecosystem/deep-ui-updates.md"
+    },
+    {
+      "repository": "dataelement/dsh-desktop",
+      "commit": "115a0b474cc2c4794316171c640a8898398591fe",
+      "source_url": "https://github.com/dataelement/dsh-desktop/tree/115a0b474cc2c4794316171c640a8898398591fe",
+      "default_branch": "main",
+      "topic_search_rank": 17,
+      "stars_at_topic_snapshot": 13650,
+      "analysis": "docs/ecosystem/deep-desktop-theme.md"
+    },
+    {
+      "repository": "dsh-tauri/deepseek-harness-desktop",
+      "commit": "1a1411342593e8f260bd2ffe9ca2ddeafa9731c7",
+      "source_url": "https://github.com/dsh-tauri/deepseek-harness-desktop/tree/1a1411342593e8f260bd2ffe9ca2ddeafa9731c7",
+      "default_branch": "main",
+      "topic_search_rank": 49,
+      "stars_at_topic_snapshot": 3038,
+      "analysis": "docs/ecosystem/deep-desktop-theme.md"
+    },
+    {
+      "repository": "elysia395/dsh-wallpaper-engine",
+      "commit": "0e7c806d7d3013597db909017f7d57bedd0e5a4a",
+      "source_url": "https://github.com/elysia395/dsh-wallpaper-engine/tree/0e7c806d7d3013597db909017f7d57bedd0e5a4a",
+      "default_branch": "main",
+      "topic_search_rank": 79,
+      "stars_at_topic_snapshot": 1161,
+      "analysis": "docs/ecosystem/deep-desktop-theme.md"
+    },
+    {
+      "repository": "Ebony-Vinyl/dsh-our-free-model",
+      "commit": "ddb451c2f24bac0b0f8b03b2473efbb1f0aefb68",
+      "source_url": "https://github.com/Ebony-Vinyl/dsh-our-free-model/tree/ddb451c2f24bac0b0f8b03b2473efbb1f0aefb68",
+      "default_branch": "main",
+      "topic_search_rank": 18,
+      "stars_at_topic_snapshot": 13445,
+      "analysis": "docs/ecosystem/deep-providers-agents.md"
+    },
+    {
+      "repository": "V1ki/dsh-plugin-subscriptions",
+      "commit": "9930c5ee5e3fa239db9031f47a0f6f30f7ffc443",
+      "source_url": "https://github.com/V1ki/dsh-plugin-subscriptions/tree/9930c5ee5e3fa239db9031f47a0f6f30f7ffc443",
+      "default_branch": "main",
+      "topic_search_rank": 153,
+      "stars_at_topic_snapshot": 455,
+      "analysis": "docs/ecosystem/deep-providers-agents.md"
+    },
+    {
+      "repository": "yjh051108/dsh-routing-suite",
+      "commit": "195273352f23bff7f9023ebe2ec0cdbdf9c98f10",
+      "source_url": "https://github.com/yjh051108/dsh-routing-suite/tree/195273352f23bff7f9023ebe2ec0cdbdf9c98f10",
+      "default_branch": "main",
+      "topic_search_rank": 27,
+      "stars_at_topic_snapshot": 7021,
+      "analysis": "docs/ecosystem/deep-providers-agents.md"
+    },
+    {
+      "repository": "xiaobright/dsh-anchored-standard",
+      "commit": "dda23ef119e3715f417d73f72eca407732846d1a",
+      "source_url": "https://github.com/xiaobright/dsh-anchored-standard/tree/dda23ef119e3715f417d73f72eca407732846d1a",
+      "default_branch": "main",
+      "topic_search_rank": 40,
+      "stars_at_topic_snapshot": 3760,
+      "analysis": "docs/ecosystem/deep-providers-agents.md"
+    },
+    {
+      "repository": "NanmiCoder/dsh-agent-teams",
+      "commit": "1094b84add6f2fb19edf659367fe2fd5f7f14154",
+      "source_url": "https://github.com/NanmiCoder/dsh-agent-teams/tree/1094b84add6f2fb19edf659367fe2fd5f7f14154",
+      "default_branch": "main",
+      "topic_search_rank": 57,
+      "stars_at_topic_snapshot": 2092,
+      "analysis": "docs/ecosystem/deep-providers-agents.md"
+    },
+    {
+      "repository": "xmanrui/dsh-im",
+      "commit": "f6a9dd0abbeae605e459a660a9922c9a703e6aa0",
+      "source_url": "https://github.com/xmanrui/dsh-im/tree/f6a9dd0abbeae605e459a660a9922c9a703e6aa0",
+      "default_branch": "main",
+      "topic_search_rank": 60,
+      "stars_at_topic_snapshot": 1946,
+      "analysis": "docs/ecosystem/deep-providers-agents.md"
+    },
+    {
+      "repository": "YuJunZhiXue/dsh-purge",
+      "commit": "6c1d638d1bdcc45ede50fc30249c753d58122a51",
+      "source_url": "https://github.com/YuJunZhiXue/dsh-purge/tree/6c1d638d1bdcc45ede50fc30249c753d58122a51",
+      "default_branch": "master",
+      "topic_search_rank": 34,
+      "stars_at_topic_snapshot": 5166,
+      "analysis": "docs/ecosystem/deep-providers-agents.md"
+    },
+    {
+      "repository": "Tencent/BrowserSkill",
+      "commit": "4c8616b12273ac5a22ce4adb494cac941e20de2a",
+      "source_url": "https://github.com/Tencent/BrowserSkill/tree/4c8616b12273ac5a22ce4adb494cac941e20de2a",
+      "default_branch": "main",
+      "topic_search_rank": 21,
+      "stars_at_topic_snapshot": 8786,
+      "analysis": "docs/ecosystem/deep-browser-memory.md"
+    },
+    {
+      "repository": "liustack/modlens",
+      "commit": "1d8b20fc97a33b456e0d500037d4d66febaeb80a",
+      "source_url": "https://github.com/liustack/modlens/tree/1d8b20fc97a33b456e0d500037d4d66febaeb80a",
+      "default_branch": "main",
+      "topic_search_rank": 38,
+      "stars_at_topic_snapshot": 4231,
+      "analysis": "docs/ecosystem/deep-browser-memory.md"
+    },
+    {
+      "repository": "zilliztech/memsearch",
+      "commit": "09e07d86b31ff81938b4f44a57099b6a9fc8723f",
+      "source_url": "https://github.com/zilliztech/memsearch/tree/09e07d86b31ff81938b4f44a57099b6a9fc8723f",
+      "default_branch": "main",
+      "topic_search_rank": 51,
+      "stars_at_topic_snapshot": 2741,
+      "analysis": "docs/ecosystem/deep-browser-memory.md"
+    },
+    {
+      "repository": "volcengine/OpenViking",
+      "commit": "6c1107527af4243055640fbb0d7d7bdcb54dc75c",
+      "source_url": "https://github.com/volcengine/OpenViking/tree/6c1107527af4243055640fbb0d7d7bdcb54dc75c",
+      "default_branch": "main",
+      "topic_search_rank": 7,
+      "stars_at_topic_snapshot": 39813,
+      "analysis": "docs/ecosystem/deep-browser-memory.md"
+    },
+    {
+      "repository": "MemTensor/MemOS",
+      "commit": "a7367d07e55db61099f7b4e2c1108bc5831a24f3",
+      "source_url": "https://github.com/MemTensor/MemOS/tree/a7367d07e55db61099f7b4e2c1108bc5831a24f3",
+      "default_branch": "main",
+      "topic_search_rank": 20,
+      "stars_at_topic_snapshot": 11847,
+      "analysis": "docs/ecosystem/deep-browser-memory.md"
+    },
+    {
+      "repository": "EverMind-AI/EverOS",
+      "commit": "a345d08e5cdfc8db77504da89fffaf3aee43018b",
+      "source_url": "https://github.com/EverMind-AI/EverOS/tree/a345d08e5cdfc8db77504da89fffaf3aee43018b",
+      "default_branch": "main",
+      "topic_search_rank": 19,
+      "stars_at_topic_snapshot": 13411,
+      "analysis": "docs/ecosystem/deep-browser-memory.md"
+    },
+    {
+      "repository": "nexu-io/open-design",
+      "commit": "1343f374c63d7866f4f3ff5d48ef038eba647f1b",
+      "source_url": "https://github.com/nexu-io/open-design/tree/1343f374c63d7866f4f3ff5d48ef038eba647f1b",
+      "default_branch": "main",
+      "topic_search_rank": 3,
+      "stars_at_topic_snapshot": 100892,
+      "analysis": "docs/ecosystem/deep-browser-memory.md"
+    },
+    {
+      "repository": "EverMind-AI/plugins",
+      "commit": "3318dc1a2afcef3d3d804963941e8ce0bf9a3879",
+      "source_url": "https://github.com/EverMind-AI/plugins/tree/3318dc1a2afcef3d3d804963941e8ce0bf9a3879",
+      "default_branch": "main",
+      "topic_search_rank": null,
+      "stars_at_topic_snapshot": null,
+      "analysis": "docs/ecosystem/deep-browser-memory.md"
+    },
+    {
+      "repository": "ysr666/dsh-vision-router",
+      "commit": "dadd0a4115db59280d8ffcda918db57d80bf8f76",
+      "source_url": "https://github.com/ysr666/dsh-vision-router/tree/dadd0a4115db59280d8ffcda918db57d80bf8f76",
+      "default_branch": "ref: refs/heads/main\tHEAD",
+      "topic_search_rank": 82,
+      "stars_at_topic_snapshot": 1148,
+      "analysis": "docs/ecosystem/deep-vision-research.md"
+    },
+    {
+      "repository": "Anionex/dsh-vision-toolkit",
+      "commit": "d4fb7402513cab73be915aa6f54d4e7f63ffc46e",
+      "source_url": "https://github.com/Anionex/dsh-vision-toolkit/tree/d4fb7402513cab73be915aa6f54d4e7f63ffc46e",
+      "default_branch": "ref: refs/heads/main\tHEAD",
+      "topic_search_rank": 98,
+      "stars_at_topic_snapshot": 887,
+      "analysis": "docs/ecosystem/deep-vision-research.md"
+    },
+    {
+      "repository": "Clearailhc/clearai-dsh",
+      "commit": "950e8fddf53c0546b3233a98447fdb3e9737a225",
+      "source_url": "https://github.com/Clearailhc/clearai-dsh/tree/950e8fddf53c0546b3233a98447fdb3e9737a225",
+      "default_branch": "ref: refs/heads/main\tHEAD",
+      "topic_search_rank": 92,
+      "stars_at_topic_snapshot": 986,
+      "analysis": "docs/ecosystem/deep-vision-research.md"
+    },
+    {
+      "repository": "shaobeichen/dsh-pocket",
+      "commit": "e6424c3a2c7912075acb9f3746c584b2bcf422c2",
+      "source_url": "https://github.com/shaobeichen/dsh-pocket/tree/e6424c3a2c7912075acb9f3746c584b2bcf422c2",
+      "default_branch": "main",
+      "topic_search_rank": 62,
+      "stars_at_topic_snapshot": 1714,
+      "analysis": "docs/ecosystem/deep-access-catalogs.md"
+    },
+    {
+      "repository": "AdamPlatin123/dsh-plugin-radar",
+      "commit": "d42875ea248fa0fdf82e5d4c39cde700a4152da3",
+      "source_url": "https://github.com/AdamPlatin123/dsh-plugin-radar/tree/d42875ea248fa0fdf82e5d4c39cde700a4152da3",
+      "default_branch": "main",
+      "topic_search_rank": 68,
+      "stars_at_topic_snapshot": 1471,
+      "analysis": "docs/ecosystem/deep-access-catalogs.md"
+    },
+    {
+      "repository": "LivXue/dsh-plugin-shop",
+      "commit": "8db779bf1de6d3307803891c4b0e65fad4af6ef2",
+      "source_url": "https://github.com/LivXue/dsh-plugin-shop/tree/8db779bf1de6d3307803891c4b0e65fad4af6ef2",
+      "default_branch": "main",
+      "topic_search_rank": 88,
+      "stars_at_topic_snapshot": 1011,
+      "analysis": "docs/ecosystem/deep-access-catalogs.md"
+    }
+  ]
+}

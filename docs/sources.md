@@ -95,3 +95,13 @@ DSHの固定コミットは、Piログイン・日本語化などの`upstream.js
 [実装記録](update-implementation.md)は、更新機能追加時の実行結果と、その後のPWA `0.3.0`・Glass UI `0.2.2`の公開報告を分けています。PWA・Glass UIの後続版は固定したREADME、ReleaseノートとPRを照合し、今回すべてのruntime試験を再実行したとは記載しません。Piの動的catalogと統合表示のIssue #6/#7は、再取得時もopenです。
 
 PWA `0.1.0`→`0.2.0`の設定欄欠落は隔離した実DSHで別途再現しました。ブラウザー再読み込みでは欠落が残り、Host再起動後に実行版と更新ボタンを確認しています。[再起動の章](update-and-restart.md)には確認順序と、基準DSHのClient metadataキャッシュ・installer・終了APIへの固定リンクがあります。この結果は利用者実機の再起動や最新7版の共存確認ではありません。
+
+## 人気プラグイン32リポジトリの深掘り
+
+2026-10-13 13:10 UTCに、`topic:dsh-plugin`をstars順で1,000件取得しました。APIが返す該当数は19,027件ですが、検索上限までの取得で、全件のコードを読んだものではありません。[調査条件](ecosystem/topic-method.md)と[CSV](../data/topic-top1000-2026-10-13.csv)に範囲を残しています。
+
+分析はGPT-6.1-solのmediumで3担当に分け、31プロジェクトとEverOSのadapter移転先を含む32リポジトリのdefault HEADを固定しました。[snapshot一覧](../data/topic-source-snapshots-2026-10-13.json)にrepository・SHA・分析章を記録し、各章のsource URLもSHAに固定しています。紹介だけでなく呼び出し経路、保存・解除・更新の所有者、関連Issue/PR・配布状況を追いました。担当外の章の相互レビューで、Issue状態、port判定、停止後の終了保証、取得port/tokenと保存の部分失敗の表現を訂正しています。
+
+[配布物の追加確認](ecosystem/deep-package-checks.md)では、公開npm tarball15種類のintegrity・manifest・具体entry・patchを照合しました。DSH `0.2.1-alpha.2`へのpeer条件は、prereleaseを含めて別に検査しています。5 packageの宣言に不一致があり、DSH peerがない3 packageも対応済みとは判定していません。[結果JSON](../data/npm-package-checks-2026-10-13.json)に検査対象・URL・不一致の範囲を残しています。
+
+限定したkeyless検査と、未実施の実DSH・認証・課金API・OS別画面は各分析章の確認範囲にあります。作者報告の件数、カタログのruntime検証表示、公開配布物のentry存在を、今回のplugin全体の動作確認へ置き換えていません。

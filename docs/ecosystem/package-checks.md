@@ -2,6 +2,8 @@
 
 この章は、今回実行した確認の記録です。READMEに書かれた導入方法や作者のテスト件数を、そのまま成功結果として転記していません。
 
+以下は最初の8 packageの確認です。その後の再取得と追加対象を含む15 packageの結果は[深掘り対象の配布物確認](deep-package-checks.md)へ分けています。同じ版の再取得と、新しい版の検査を混同しません。
+
 ## 公開npm tarballを確認した
 
 2026-10-13 02:35 UTC前後に、versionを指定してregistry metadataとtarballを取得しました。archiveのSHA-512をregistryの`dist.integrity`と照合し、package名・版、main、exportsの具体的なfile、bundle patchの存在を確認しています。
