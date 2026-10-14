@@ -22,6 +22,8 @@ Git追跡file、`files`、build出力、packされたfile一覧は別に検査�
 
 peerのDSH対応範囲と、bundlerのexternalを確認します。不一致を検査の無効化で隠しません。integrity/checksum一致、entryの存在、依存解決、Loader登録、実機機能を別に確認します。
 
+installerが依存build scriptの許可待ちを返した場合は、既存の許可範囲を確認します。未許可のscriptを実行するために `approvedBuilds` やprofile設定を自動で補いません。詳しい判定は [Hostの導入](host-plugin.md#導入) にあります。
+
 ## 公開するコミット
 
 package・lockfile・実行版・tagをそろえ、テストしたコミットのtarballを公開します。runtime出力とRelease assetの置場を分け、assetは意図したfile名へ限定します。公開済みtagを別コミットへ動かさず、新しい版で修正します。

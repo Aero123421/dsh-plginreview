@@ -20,4 +20,4 @@ baseが別のopen PRなら、下位を取り込んだ後に上位のbaseと差�
 
 merge method、base変更、必要なbranch更新は対象の方針へ合わせます。履歴を書き換える場合はremoteの現在値を確認し、leaseで他の更新を保護します。他人のbranchの再構成や削除を、マージのついでに行いません。
 
-マージ後はPR状態、mainのcommitとtreeを確認します。Releaseが依頼されている場合だけ、テストした公開物・tag・assetへ進みます。mergeだけで利用者へ配布済みとは報告しません。
+マージ後はPR状態と、実際のマージ先baseのcommit・treeを確認します。Releaseが依頼されている場合だけ、テストした公開物・tag・assetへ進みます。mergeだけで利用者へ配布済みとは報告しません。

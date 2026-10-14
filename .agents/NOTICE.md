@@ -16,7 +16,7 @@
 
 - 日本語の手順にし、対象DSHと独立pluginのAPI・manifest・CIを読む形にしました。
 - DSH内のlive inspectionを使える場合と、Codex等でソースを読む場合を分けました。
-- 本体専用の検証script、非公開の担当者や承認経路、GitHub stackの必須化、翻訳pair・hashの必須化を外しました。
+- 本体専用の検証script、担当者指定の承認経路、GitHub stackの必須化、翻訳pair・hashの必須化を外しました。
 - GIFは必要な操作の説明・確認に使い、全UI PRで実APIと録画を必須にする指示を外しました。
 - 本リポジトリの公開調査を基に、GitHub/tarball配布、更新後の反映、操作の結果照合、共存・解除を追加しました。
 - Skillごとに読込める範囲を限定し、参照資料はそのSkillのディレクトリへ同梱しました。
