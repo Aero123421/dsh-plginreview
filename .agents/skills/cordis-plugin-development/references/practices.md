@@ -2,6 +2,10 @@
 
 service、provider、event、tool、slotの最も小さい拡張で目的を満たします。保存状態とmodel-visible情報の所有者を確認し、plugin内cacheを永続記録の代わりにしません。
 
+基準版向けの独立pluginでは、対象DSHが知らないtypeを `Session.append()` へ追加しません。モデルへ渡す内容は既存のmessage・tool結果や確認済みのagent APIを使い、plugin固有の保存状態は利用できるstorage APIへ置きます。`appendPluginRecord()` は本体の実験package用で、外部plugin向けの保存入口ではありません。本体のeventや保存形式を変える依頼では、その変更に必要なreader互換性とmigrationを確認します。
+
+根拠: [外部pluginの利用制約](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/core/session/README.md#L70)、[appendの実装](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/core/session/src/index.ts#L798)、[未知eventの復元時検査](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/session/session-format-v3-to-v4/src/validation.ts#L58)。
+
 ## scopeと権限
 
 global登録の成功は、agentのtool一覧へ出ることの証明ではありません。同名のscoped toolやrestrict、親子Sessionの選択を含めて、実際のschemaとdispatchを確認します。
@@ -16,7 +20,7 @@ process handle、route、CSS、設定namespace、credential key、callback、tim
 
 古い接続・認証試行・編集の完了を、現在の状態へ反映しません。generation、request ID、candidate ID等は、識別すべき操作に合わせます。値が同じという比較だけで別の編集を同一視しません。
 
-共有DOM/CSS変数の復元は、自分が設定した値をまだ所有する場合に限ります。設定は最新値の対象fieldへ更新します。別pluginの登録やクラウド資源を名前の一致だけで削除しません。
+共有DOM/CSS変数の復元は、自分が設定した値をまだ所有する場合に限ります。共有設定は所有serviceの原子的更新やrevision付き更新を使い、現在値の対象fieldだけを変更します。自分で排他を持つ場合は、最新値の読取りから保存までをその内側へ置きます。別pluginの登録やクラウド資源を名前の一致だけで削除しません。
 
 ## 併用確認
 

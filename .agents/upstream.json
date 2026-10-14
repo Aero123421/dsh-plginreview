@@ -157,5 +157,39 @@
     "https://github.com/Aero123421/dsh-plginreview/blob/1efb6e9c02faea4bd0170e4f8e0a4e0e928dc88f/docs/update-button.md",
     "https://github.com/Aero123421/dsh-plginreview/blob/1efb6e9c02faea4bd0170e4f8e0a4e0e928dc88f/docs/plugin-coexistence.md",
     "https://github.com/Aero123421/dsh-plginreview/blob/1efb6e9c02faea4bd0170e4f8e0a4e0e928dc88f/docs/ecosystem/deep-patterns.md"
+  ],
+  "api_sources": [
+    {
+      "source_path": "packages/core/session/README.md",
+      "source_blob": "178dc708b878d8648942c7b6124c59f69db71a8a"
+    },
+    {
+      "source_path": "packages/core/session/src/index.ts",
+      "source_blob": "e97585e4635dd2f0764cd6c2bb5fb8791708e321"
+    },
+    {
+      "source_path": "packages/session/session-format-v3-to-v4/src/validation.ts",
+      "source_blob": "8c0e74d61de7c94a2cc37131912c96fe3288b544"
+    },
+    {
+      "source_path": "packages/boot/plugin-manager/src/tools.ts",
+      "source_blob": "29c58e898d2a908b19db4dd9d48382a538387c8a"
+    },
+    {
+      "source_path": "packages/boot/plugin-manager/README.md",
+      "source_blob": "bc1550d9aa262d8837704b3b971c91c419161fc2"
+    },
+    {
+      "source_path": "vendor/loader/src/config/isolate.ts",
+      "source_blob": "e2fd5391576b0e7b1bd41541b2360cccb92d1af5"
+    },
+    {
+      "source_path": "packages/boot/plugin-manager/src/build-approval.ts",
+      "source_blob": "75600f8c22a468fcae74db1f645bde372e35911e"
+    },
+    {
+      "source_path": "packages/client/ui-approval/src/client/index.ts",
+      "source_blob": "ca6d674e36c65cd30724f4676c5a95bd617125e2"
+    }
   ]
 }

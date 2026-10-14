@@ -11,7 +11,7 @@ file、worker、process、jobが何を共有するか調べます。同じtest f
 ## 資源と状態
 
 - network fixtureはloopbackでport `0` にbindし、listen完了後のaddressを使います。空きportの事前探索は予約になりません。
-- testごとに `mkdtemp` 等でprivateなrootを作り、存在しない必要があるfileはexclusiveに作成します。
+- fileを作成・変更するtestは、`mkdtemp` 等で専用のrootを作り、存在しない必要があるfileはexclusiveに作成します。
 - environment、cwd、module cache、fake timer、global handlerの共有を列挙します。可能ならinstance-localやdependency injectionへ移し、変更したものはfinallyで戻します。
 - date、mtime、rename、signal、process終了をOSが所有する動作として扱います。単一OSでの精度やタイミングを全OSへ仮定しません。
 - 固定path/URLが単なるparser入力なら、資源を取得するfixtureと同じ理由で書き換えません。

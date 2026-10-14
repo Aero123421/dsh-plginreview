@@ -20,7 +20,7 @@ CSSはpluginの範囲へ限定し、共有theme/fontを変更する機能は解�
 
 保存待ちと保存済みを分け、失敗時は入力と既存データを残します。古い編集・接続の応答で新しい状態を消しません。
 
-一時的な操作結果はsurfaceが閉じても残るtoast等へ、query失敗・field検証はそのsurfaceへ置きます。結果不明や継続する障害は、利用者が状態と次の操作を確認できる表示にします。
+操作によって画面やメニューを閉じる場合は、閉じた後も結果を確認できるtoast等へ出します。画面が残る操作の結果、query失敗、field検証は、既存のその場の表示を使います。結果不明や継続する障害は、状態と次の操作を確認できる表示にします。
 
 menu・popoverは外側クリックとEscape、focus、viewport内への配置、overflow親からのclippingを確認します。Portal、observer、timer、CSSはcomponent/pluginの解除で片付けます。
 

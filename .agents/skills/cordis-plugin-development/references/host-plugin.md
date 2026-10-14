@@ -26,4 +26,6 @@ Configは読み込まれる値のschemaを持ち、後から判明する依存�
 
 DSH内の `plugin_manager`、Hostのplugin manager、`dsh plugin` のうち、環境で使える入口へ導入を委譲します。返されたfailure、pending、override、restart-requiredを保ちます。解釈できない結果を成功へ変換しません。
 
+`pendingBuilds` が返った場合は、実行待ちのscriptと既存の利用者の許可を確認します。返されたpendingのうち、その許可に含まれる名前だけを、再確認せず `approvedBuilds` へ渡せます。許可に含まれないものを自動補完や設定変更で許可しません。コードの導入と、依存build scriptの実行は別の許可です。根拠: [tool引数](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/boot/plugin-manager/src/tools.ts#L28)、[managerの許可範囲](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/boot/plugin-manager/README.md#L61)。installer設定で既に許可された名前はpendingではなく、再送すると [stale-approval](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/boot/plugin-manager/src/build-approval.ts#L75) になります。
+
 公式の[Host参照資料](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/preset/agent-preset/skills/cordis-plugin-development/references/host-plugin.md)に基準版のmetadata形式があります。別の版では、実際のexport・Config・manager結果を確認します。
