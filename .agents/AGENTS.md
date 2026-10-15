@@ -1,36 +1,48 @@
 # DSHプラグイン開発の共通ルール
 
-独立したDSHプラグインを実装・レビューする際の指示です。このリポジトリで文書やSkillsを編集する場合は、記載内容の確認に使い、プラグインを起動する作業へ広げません。対象リポジトリの既存ルールと、ユーザーの明示した目的を優先します。
+独立したDSHプラグインの実装・レビューに使います。対象リポジトリの既存ルールとユーザーの目的を優先し、文書・Skillsの編集だけなら利用者のprofileやプラグインを変更しません。
+
+## 対象版と読む範囲
+
+現在の確認基準はDSH `0.2.1-alpha.3` / `2fbf4359b82fb94c03dcce0b831660d87f12ea5c`です。これはソース読解の基準で、全pluginの実行互換性を認定するものではありません。[baseline.json](baseline.json)が現在の確認対象、[upstream.json](upstream.json)が最初の19 Skillsの導入元です。2026-10-13の固定SHAと試験結果を最新版へ読み替えません。
+
+公開Release、npmの配布先、開発branchを分けます。別の版では実際のAPIを読み、変更されたservice・event・provider・slot・保存形式の所有packageから確認します。Skill本文が同じでも参照APIが同じとは限りません。
 
 ## 対象と拡張点
 
-- 対象DSHの版、プラグインの導入元、Host・Client・presetの担当を確認します。基準資料は `0.2.1-alpha.2` / `d743267388641bc76f17c45ce8b4c231aed1d32c` です。別の版では実際のAPIを読み直します。
-- 公開されたservice・event・provider・UI slotを優先します。必要なAPIを確認してから依存を宣言し、HostとClientのビルド・実行環境を分けます。
-- DSHのシステムプロンプト、エージェントループ、権限、モデルの挙動を変えるのは、その変更が依頼された場合です。日本語化は表示・言語選択・フォントを対象にし、応答言語の指示を追加しません。
-- 本体の内部cacheや他プラグインのDOMへ依存する場合は、公開拡張点で足りない理由、対象版、解除・障害時の扱いを記録します。
+- 公開された拡張点を優先し、HostとClientの依存・ビルド・実行環境を分けます。存在しないAPIや検証コマンドを補いません。
+- system prompt、agent loop、権限、modelの挙動を変えるのは、その目的の変更が依頼された場合です。日本語化のために応答言語の指示を追加しません。
+- 内部cacheや他pluginのDOMへの依存は、公開拡張点で足りない理由、対象版、解除と障害時の扱いを記録します。
 
 ## 状態と解除
 
-- 登録、event、timer、observer、通信、子process、CSSは所有するcontextと解除方法を決めます。Cordisの登録は `ctx.effect()` / `ctx.on()` 等で解除可能にします。
-- waterfallでは、自分が処理しない場合に `next()` へ委譲します。共有するdecisionを書き換えるときは、関係のないfieldを保ちます。
-- 非同期結果を反映する前に、接続・profile・認証試行・編集など、対象状態の世代を照合します。解除後の結果で設定や資格情報を復活させません。
-- pluginのOFF、providerのOFF、資格情報の削除、クラウド資源の削除を分けます。停止や更新だけで保存済みの資格情報を消しません。
-- 共有設定を読み直して保存する場合は、所有serviceの原子的更新、排他、revision検査などで競合を扱い、対象namespace・fieldだけを変更します。他pluginのCSS・route・登録・processを一括解除しません。
-- モデルに渡す情報は既存のmessage・tool結果など、対象DSHが記録する入口を使い、Session logから再構成できる形にします。独立pluginの保存入口と保存形式を確認し、対象DSHが知らないevent typeを追加しません。保存データの変更では旧版の読取り、migration、再起動・再送を確認します。
+- 登録、event、timer、observer、通信、子process、CSSは所有するcontextを決めます。`ctx.effect()` 等への登録だけでなく、停止が完了した時点まで追います。
+- 解除は新規受付を止め、受け付け済み処理の結果・保存を、その依存serviceやlistenerが使える間に終えてから資源を閉じます。abort/killしただけ、injectを宣言しただけ、逆順に登録しただけで安全とは判断しません。
+- waterfallでは処理しない場合に `next()` へ委譲し、共有decisionの無関係なfieldを保ちます。
+- 接続・profile・認証試行・編集の世代を照合します。遅い成功・失敗で、新しい状態やログアウト後の資格情報を復活させません。
+- plugin OFF、provider OFF、資格情報削除、クラウド資源削除を分けます。共有設定は所有serviceの原子的更新やrevisionで対象fieldだけを変更します。
+- モデルへ渡す情報を記録可能な入口へ通し、resume・fork後にも同じ意味で再構成できるようにします。独立pluginから未知のSession eventや、本体experimental専用 `appendPluginRecord()` を追加しません。
+- Session由来の表示は公開projectionを確認し、新しい全履歴scanを増やしません。保存完了が必要な操作では所有serviceのflushを待ちます。動的なport・pathをsystem promptへ無断で埋め込み、既存の会話prefixを書き換えません。
+
+## 呼出し元・資格情報
+
+- 外部要求の認証と操作の認可を分けます。Hostが作るprincipal/Peerを使い、wireの自己申告や暗黙のowner fallbackに依存しません。Remoteと直接HTTPの入口を区別します。
+- UIのaccess snapshotは実行許可の証明ではありません。method/resource、一覧の各項目、stream、失効後の操作を所有側で確認します。既に実行中のunary処理はPeer破棄だけで止まるとは限りません。
+- storeを持つprofileの保存値優先と、標準headlessのstore省略を区別します。資格情報のsourceを診断し、unset後にenvへfallbackする経路も確認します。試験のために利用者の保存値を消しません。
 
 ## UIと入力
 
-- UIはDSHのslot、theme token、localeと既存の操作パターンに合わせます。Host向けSDKや別コピーのReactをClientに埋め込みません。
-- 設定パネルの実際の内容幅、日本語、明暗テーマ、キーボード、失敗・保存中・切断時の表示を確認します。画面全体の幅だけで判断しません。
-- model/tool JSON、設定、保存file、worker/process/wire入力を検証します。typedな同一process内の値へ、根拠なく同じ検証を重ねません。
-- 診断には失敗段階、影響、安全な次の操作を出します。token、cookie、APIキー、認証URL、ユーザーの会話を無加工で出力しません。
+- DSHのslot、theme token、localeと既存操作に合わせます。Host SDKや別コピーのReactをClientへ埋め込みません。
+- 実際の設定内容幅、日本語、明暗、keyboard、touch、保存中・失敗・切断を変更箇所に応じて確認します。390 CSS pxのviewportだけで、もっと狭いpanelも確認したとはしません。
+- model/tool JSON、設定、保存file、process/wireの境界を検証します。同一process内のtypedな値へ根拠なく検証を重ねません。
+- 診断には失敗段階・影響・安全な次の操作を出し、token、cookie、APIキー、認証URL、利用者の会話を無加工で出しません。
 
 ## 配布・更新・検証
 
-- GitHub指定、npm、Release tarball、ローカルpathのうち、案内する導入経路を確認します。`package.json.files` と公開タグ・実tarballの中身を別に確認します。
-- 導入処理は対象DSHのplugin manager / CLIへ委譲します。DSH内のツール、Host API、CLIは環境にあるものを使い、存在しないAPI名を補って実装しません。
-- 更新確認、導入、再起動待ち、新しい実行版の確認を分けます。profileと操作IDを照合し、更新前のON/OFF・設定・資格情報を維持します。
-- 対象の `package.json` とCIから関連する検証を選びます。成功済みの確認は、変更が結果を無効にした場合に再実行します。API鍵やOSが不足する範囲は未検証として報告します。
-- Issue、修正、テスト、merge、公開版、利用者の再確認を区別します。公開済みtagを差し替えて修正を配り直しません。
+- 案内するGitHub、npm、Release tarball、local pathの配布物とentryを確認します。候補のregistryと実際の導入先、build承認の対象を一致させ、供給元の拒否を勝手に迂回しません。
+- alpha.3のHMR下では既存packageへの `installBundle()` が `already-installed` になる経路があります。自己更新で自分を削除する前に、操作の所有者・保存状態・復旧を設計します。
+- 候補、導入版、実行版、Client反映を分けます。`restart-required` は手順を案内し、`applied` も対象機能を確認します。`waitForInstall()` のnullを成功にしません。
+- base/head、公開物、環境を固定し、差分に合う確認を選びます。旧実装で狙った失敗が起きるか、直接・代替入口でも拒否が効くかを見ます。成功済みの結果は変更で無効になった場合に再実行します。
+- Issue、修正、test、merge、公開版、利用者確認を分けます。作者報告と自分の実行結果を混ぜず、未確認を対応済みに含めません。公開tagは差し替えません。
 
-文章は具体的な操作と結果を書きます。読み手に必要な条件・失敗・互換性を残し、作業中の語りや説明の重複を削ります。詳しい手順は、対象作業に合うSkillを読みます。
+必要なSkillだけを読みます。本家専用の全gate、常設CI、録画、独自updater、operation台帳を全pluginへ一律追加する方針ではありません。
