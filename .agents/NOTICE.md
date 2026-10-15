@@ -1,30 +1,27 @@
 # 公式からの調整とライセンス
 
-このディレクトリの共通ルールとSkillsは、公開されているDeepSeek Harnessの開発資料を基に、独立したDSHプラグイン向けに調整したものです。公式版そのものではありません。
+共通ルールとSkillsは公開されたDeepSeek Harnessの資料を独立plugin向けに調整したものです。公式版そのものでも、公式の互換性認定でもありません。
 
-## 確認した公式ソース
+## 初回の導入元
 
-- リポジトリ: [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness)
-- commit: `d743267388641bc76f17c45ce8b4c231aed1d32c`、DSH `0.2.1-alpha.2`
-- プラグイン用: [agent-preset/skills](https://github.com/deepseek-ai/deepseek-harness/tree/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/preset/agent-preset/skills)
-- 本体開発用: [.agents/skills](https://github.com/deepseek-ai/deepseek-harness/tree/d743267388641bc76f17c45ce8b4c231aed1d32c/.agents/skills)
-- 共通ルールの参照: [AGENTS.md](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/AGENTS.md)、[packages/AGENTS.md](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/AGENTS.md)、[Clientの指示](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/client/AGENTS.md)
+2026-10-14に、DSH `0.2.1-alpha.2` / `d743267388641bc76f17c45ce8b4c231aed1d32c` のplugin向け4種と本体開発向け15種を調整しました。元file・blob SHA・参照資料は [upstream.json](upstream.json) に内容を変えず残しています。これは現在の実行基準ではなく、初回の導入元です。
 
-2026-10-14（日本時間）に調整しました。19種の元file・blob SHAと、参照資料の対応を [upstream.json](upstream.json) に保存しています。公式の `.agents/skills/agent-experience/SKILL.md` は製品内の同名Skillへのsymlinkなので、ここでは実体を一つだけ同梱しています。
+公式のagent-experienceのsymlinkは、製品内の実体を一つだけ同梱しています。日本語化、独立repoのmanifest・command確認、配布物・更新後の反映、共存の観点を加え、本体専用gate、承認者、stack、翻訳pair/hash、全UIの録画必須化は持ち込みませんでした。
 
-## 調整した内容
+## 2026-10-15の更新
 
-- 日本語の手順にし、対象DSHと独立pluginのAPI・manifest・CIを読む形にしました。
-- DSH内のlive inspectionを使える場合と、Codex等でソースを読む場合を分けました。
-- 本体専用の検証script、担当者指定の承認経路、GitHub stackの必須化、翻訳pair・hashの必須化を外しました。
-- GIFは必要な操作の説明・確認に使い、全UI PRで実APIと録画を必須にする指示を外しました。
-- 本リポジトリの公開調査を基に、GitHub/tarball配布、更新後の反映、操作の結果照合、共存・解除を追加しました。
-- Skillごとに読込める範囲を限定し、参照資料はそのSkillのディレクトリへ同梱しました。
+[baseline.json](baseline.json) のDSH `0.2.1-alpha.3` / `2fbf4359b82fb94c03dcce0b831660d87f12ea5c` を新しいソース基準とします。公開Releaseとmasterは分離します。旧19種のすべてを新しい公式blobへ置き換えた記録ではありません。
 
-上流を更新するときは、対応fileの差分と引用APIを読み、対象DSHで確認します。上流の指示を機械的に上書きせず、独立pluginへの調整と既存のユーザー指示を維持します。参照元の版を更新したことと、全runtimeを試験したことを分けて記録します。
+- `cordis-plugin-development` と更新・共存の参照資料を、manager、Remote access、Session、再構成の契約に合わせて更新しました。
+- `dsh-code-review`、`dsh-pre-push-checks`、`dsh-client-ui-ux`、`dsh-speed-up-perf` を、上流契約・反例・障害中の処理・実際の表示範囲を確認する形へ更新しました。
+- `dsh-responsive-ui` は[本家の同名Skill](https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/skills/dsh-responsive-ui/SKILL.md)から調整しました。
+- `dsh-lifecycle-audit` は[本家cordis-styling-nitpicking](https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/skills/cordis-styling-nitpicking/SKILL.md)を基にしました。P0の一律分類は移さず、到達可能な失敗と影響から判断します。
+- `dsh-upstream-refresh` は[review](https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/skills/dsh-code-review/SKILL.md)、[pre-push](https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/skills/dsh-pre-push-checks/SKILL.md)と公開事例の調査からの独自整理です。本家に同名のSkillがあるという意味ではありません。
+
+残る14種は初回の調整を維持しています。参照元の更新と、実DSHでの試験は別です。今回のruntime・実OAuth・全OS・全plugin共存試験は実施していません。使うAPIや版が異なる回には、その所有するソースを読み直します。
 
 ## ライセンスの保持
 
-公式資料は [MIT License](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/LICENSE) です。DeepSeekの著作権表示と許諾文を [.agentsのLICENSE](LICENSE) と各Skillの `LICENSE` に保持しています。
+公式資料のMIT許諾とDeepSeekの著作権表示を [LICENSE](LICENSE) と各SkillのLICENSEに保持しています。新しい3種にも同じ許諾文を同梱します。根拠となる公開ソースへの参照は記述の出典で、外部pluginのコードや全文を再配布するものではありません。
 
-別のリポジトリへ持ち込むときも、必要な参照資料とLICENSEを一緒にコピーします。共通ルールをコピーする場合は、このNOTICEと対応するLICENSEも残します。
+個別SkillをコピーするときはLICENSEとreferencesを、共通ルールもコピーするときはNOTICE・upstream.json・baseline.jsonを一緒に保ちます。元repoの指示を機械的に上書きせず、利用先の目的と運用を優先します。

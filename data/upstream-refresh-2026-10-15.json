@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "checked_on_jst": "2026-10-15",
+  "review_repository_base": "be59afc6bfeadcc6bc1c4b405ee8f80b4a936b40",
+  "baseline_file": "../.agents/baseline.json",
+  "selection": "Six repositories sampled from the 2026-10-13 scope: update, UI, auth, image, memory and remote input. No new popularity ranking.",
+  "queries": {
+    "default_window": "updated:>=2026-10-13",
+    "OpenViking_DSH_leaf": "dsh in:title updated:>=2026-10-09"
+  },
+  "pr_cases": [
+    {
+      "repository": "dsh-market/dsh-market",
+      "number": 860,
+      "url": "https://github.com/dsh-market/dsh-market/pull/860",
+      "state": "open",
+      "draft": false,
+      "merged": false,
+      "merged_at": null,
+      "base_ref": "main",
+      "base_sha": "b8948c1aee21a5a10cf78266aadd0b49f8d2515c",
+      "head_repo": "liuwenji007/dsh-market",
+      "head_sha": "ef7e95f4627570a8e74787ab012b5c3193293eaa",
+      "updated_at": "2026-10-15T00:40:05Z",
+      "evidence": "metadata + PR body + full patch"
+    },
+    {
+      "repository": "dsh-market/dsh-market",
+      "number": 863,
+      "url": "https://github.com/dsh-market/dsh-market/pull/863",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "merged_at": null,
+      "base_ref": "main",
+      "base_sha": "b8948c1aee21a5a10cf78266aadd0b49f8d2515c",
+      "head_repo": "lemonxiny55/dsh-market",
+      "head_sha": "b2a12e912473665dbc436f717794e0c96cad0279",
+      "updated_at": "2026-10-14T16:51:10Z",
+      "evidence": "metadata + PR body + full patch"
+    },
+    {
+      "repository": "dsh-market/dsh-market",
+      "number": 864,
+      "url": "https://github.com/dsh-market/dsh-market/pull/864",
+      "state": "open",
+      "draft": false,
+      "merged": false,
+      "merged_at": null,
+      "base_ref": "main",
+      "base_sha": "b8948c1aee21a5a10cf78266aadd0b49f8d2515c",
+      "head_repo": "temotee2103/dsh-market",
+      "head_sha": "3759d4612ee2badd02f0374f81f62680e75b87d4",
+      "updated_at": "2026-10-14T16:56:52Z",
+      "evidence": "metadata + PR body; no independent patch or runtime verification"
+    },
+    {
+      "repository": "omdsh-dev/DSH-better-sidebar",
+      "number": 956,
+      "url": "https://github.com/omdsh-dev/DSH-better-sidebar/pull/956",
+      "state": "open",
+      "draft": false,
+      "merged": false,
+      "merged_at": null,
+      "base_ref": "dev",
+      "base_sha": "2bcee4c6350874b72f9cd677bc87fed6dc765e05",
+      "head_repo": "yanzhaohui1999/DSH-better-sidebar",
+      "head_sha": "97ab172cbb523a627f813a0e837d54de53e06e7a",
+      "updated_at": "2026-10-15T00:00:58Z",
+      "evidence": "metadata + PR body; no independent patch or runtime verification"
+    },
+    {
+      "repository": "volcengine/OpenViking",
+      "number": 5912,
+      "url": "https://github.com/volcengine/OpenViking/pull/5912",
+      "state": "open",
+      "draft": false,
+      "merged": false,
+      "merged_at": null,
+      "base_ref": "main",
+      "base_sha": "6c1107527af4243055640fbb0d7d7bdcb54dc75c",
+      "head_repo": "stefanielizeth73-art/OpenViking",
+      "head_sha": "6b384b9f95077d9a65e1124e986a0f8e2f7b0ed7",
+      "updated_at": "2026-10-13T13:25:05Z",
+      "evidence": "metadata + PR body + full patch"
+    },
+    {
+      "repository": "xmanrui/dsh-im",
+      "number": 359,
+      "url": "https://github.com/xmanrui/dsh-im/pull/359",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "merged_at": null,
+      "base_ref": "main",
+      "base_sha": "60c59e5a558423b9bfc203b1f720fdfb0af0e69e",
+      "head_repo": "DoodleBears/dsh-im",
+      "head_sha": "dc72c9fd1d3604b5b682f41bebe14d4c03d5dacd",
+      "updated_at": "2026-10-14T09:33:50Z",
+      "evidence": "metadata + PR body; prerequisites and fork results are not inherited"
+    }
+  ],
+  "other_screened": [
+    {
+      "repository": "liustack/modlens",
+      "head_sha": "1d8b20fc97a33b456e0d500037d4d66febaeb80a",
+      "commit_date": "2026-10-04T07:37:10Z",
+      "result": "default head equals prior snapshot; recent PR query returned no results; no alpha.3 runtime claim"
+    },
+    {
+      "repository": "V1ki/dsh-plugin-subscriptions",
+      "result": "recent PR search returned documentation companion proposal #145 only; this does not prove absence of all provider changes or compatibility",
+      "url": "https://github.com/V1ki/dsh-plugin-subscriptions/pull/145"
+    }
+  ],
+  "limitations": [
+    "Upstream pull search empty and collection returned 404; no complete upstream PR population or growth rate.",
+    "Compare files response is capped; total commit count is not total changed-file count.",
+    "PRs are not releases; author-reported tests were not rerun.",
+    "OpenViking non-DSH adapters were excluded from DSH behavior conclusions.",
+    "No automated recurring monitoring or user profile changes were performed."
+  ]
+}

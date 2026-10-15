@@ -1,27 +1,27 @@
 ---
 name: dsh-speed-up-perf
-description: DSHプラグインの起動、設定画面、Session処理、network、描画の性能を計測し、動作と所有関係を保って改善する。
+description: DSHプラグインの起動、UI、Session、networkと障害中の負荷を計測し、履歴・保存・権限・復旧の意味を保って改善する。
 license: MIT
 ---
 
 # 利用経路の性能改善
 
-利用者が遅いと感じる操作、対象版、入力規模、計測する時間・CPU・memoryを決めます。大きなfileや疑わしいloopだけでbottleneckと断定しません。
+遅い操作、対象版、入力規模、時間・CPU・memoryの観測を決めます。大きなfileや疑わしいloopだけでbottleneckと断定しません。
 
-## 先に計測する
+## 平常時と障害時を測る
 
-起動、設定表示、検索、model選択、会話の描画、reloadなど、productionのconsumerを通す条件で測ります。件数、byte、turn、tool、child、DOM数、cold/warmを、測る目的に応じて変えます。
+productionのconsumerを通し、起動、設定、検索、model選択、会話描画を測ります。件数、byte、turn、DOM、cold/warmに加え、idle、offline backlog、再接続、取消後を機能に応じて含めます。同じ環境・入力でbefore/afterとばらつきを比較し、推定を実測値にしません。
 
-同じ環境・入力・観測方法でbefore/afterを比較します。計測がない推定と、実測した値を分けます。極小の同じfixtureだけで、長いSessionや実画面を代表させません。
+[Session表示の規約](https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/docs/defensive-patterns/conversation-and-session.md)を確認し、projectionと別の全件fold・Client全log scanを増やしません。streamの高頻度deltaは増分計算とbatchingを確認します。構造・終了通知まで無条件に遅らせる方針ではありません。
 
-## 減らす処理を選ぶ
+## 削減と正しさを別に確認する
 
-不要な全件fold、subscription、polling、再描画、重複要求、I/Oを追います。DSHのprojection・selector・共有処理で済む部分を、独自event購読とscanで再実装しません。
+不要なsubscription、polling、再描画、重複要求、I/Oを追います。queueが空のときと、通信できないときに読むpayloadを分けます。offline時に解析を減らしてもpending、retry数、復旧後の再送、保存完了を維持します。
 
-cacheには対象identity、失効、同時要求、取消、容量、秘密情報の分離を持たせます。性能改善でモデルに渡る履歴、保存完了、権限、結果を変えません。
+cacheは所有context、identity、失効、容量、共有要求・取消、資格情報の分離を決めます。module globalのcacheへ移すだけで速くしません。modelへ渡る履歴や結果を削って達成した数値を、同じ挙動の最適化としません。
 
-## 確認と報告
+negative controlでは古い実装に戻すと測定対象の不要処理が増えることを確認し、同時に外部状態・保存内容が同じであることを検査します。空queueとI/O失敗を同じ値に畳むhelperは、そのエラー契約も読む必要があります。
 
-観測した改善と、安定した動作を別に確認します。OFF/ON、再起動、失敗・取消でも資源が残らないことを該当箇所で確認します。
+## 報告
 
-入力・環境・回数・ばらつきと、未検証の大きい条件を報告します。benchmarkの閾値や常設CI gateは、維持する目的と根拠がある場合に追加します。
+入力、環境、回数、ばらつき、変えなかった挙動、未確認を記録します。OFF/ON・再起動・失敗・取消後の残存資源を必要な範囲で確認します。benchmark閾値や常設CIは維持する目的がある場合だけ追加します。
