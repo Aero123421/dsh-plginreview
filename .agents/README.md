@@ -1,8 +1,8 @@
 # DSHプラグイン開発用の指示とSkills
 
-独立したプラグインrepoで使う22種のSkillsです。実行プラグインではありません。現在のソース基準はDSH `0.2.1-alpha.3` / `2fbf4359b82fb94c03dcce0b831660d87f12ea5c`。2026-10-15に影響の大きい既存5 Skillsと参照資料を更新し、3種を追加しました。22種すべてを再実行・全API照合したという意味ではありません。
+独立したプラグインrepoで使う22種のSkillsです。実行プラグインではありません。DSH `0.2.1-alpha.3` / `2fbf4359b82fb94c03dcce0b831660d87f12ea5c`は2026-10-15時点の固定ソース記録であり、最新基準ではありません。影響の大きい既存5 Skillsと参照資料を同日に更新し、3種を追加しました。22種すべてを再実行・全API照合したという意味ではありません。新しい作業では対象版のソースを確認してください。
 
-共通指示は [AGENTS.md](AGENTS.md)、現在の確認ソースは [baseline.json](baseline.json)、初回19種の導入元は [upstream.json](upstream.json)、調整と許諾は [NOTICE.md](NOTICE.md) にあります。
+共通指示は [AGENTS.md](AGENTS.md)、2026-10-15の固定確認ソースは [baseline.json](baseline.json)、初回19種の導入元は [upstream.json](upstream.json)、調整と許諾は [NOTICE.md](NOTICE.md) にあります。
 
 ## プラグイン開発用
 

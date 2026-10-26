@@ -80,7 +80,7 @@ def validate(root: Path, selected: list[str] | None = None,
             try:
                 data = json.loads(text)
                 if relative == '.agents/baseline.json':
-                    if data.get('record_kind') != 'active-source-baseline':
+                    if data.get('record_kind') not in {'active-source-baseline', 'historical-source-baseline'}:
                         raise ValueError('invalid baseline record kind')
                     if not SHA.fullmatch(data['release']['commit']):
                         raise ValueError('release commit must be a full SHA')

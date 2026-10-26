@@ -3,7 +3,7 @@
 ここはDSHプラグインの開発記録と開発エージェント用Skillsを保存する文書リポジトリです。実行プラグイン本体は含みません。
 
 - 主ブランチは `main`、変更先は `Aero123421/dsh-plginreview`。ブランチは原則 `codex/`、commitとPRは日本語にします。
-- 現行基準は [docs/current-baseline.md](docs/current-baseline.md) と [.agents/baseline.json](.agents/baseline.json) です。旧調査の固定SHA・実行結果と区別します。
+- [docs/current-baseline.md](docs/current-baseline.md) と [.agents/baseline.json](.agents/baseline.json) は、2026-10-15確認のalpha.3固定ソース記録であり、最新基準ではありません。作業対象の版の公開Releaseとソースを確認し、旧調査の固定SHA・実行結果は日付のある記録として扱います。
 - Skillsの変更では [.agents/AGENTS.md](.agents/AGENTS.md)、[配布方法](.agents/README.md)、[導入元とライセンス](.agents/NOTICE.md) を確認します。初回19種の導入元 `upstream.json` は履歴として保ちます。
 - 公開ソース、今回実行した検証、作者報告、提案、未確認を区別します。PRのbase/head・merge先・公開物を確認し、検索結果の欠落を推測で埋めません。
 - 他repoの修正、インストール、releaseは依頼された場合だけ行います。文書更新だけで利用者のprofile・認証情報・クラウド資源を変更しません。

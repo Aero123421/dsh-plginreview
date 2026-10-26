@@ -71,6 +71,21 @@ class DocumentChecks(unittest.TestCase):
         self.assertEqual(result.errors, [])
         self.assertEqual(result.skipped_anchors, 1)
 
+    def test_historical_baseline_kind_accepted(self):
+        self.put('.agents/baseline.json', json.dumps({
+            'record_kind': 'historical-source-baseline',
+            'release': {'commit': 'a' * 40},
+            'sources': []}))
+        self.assertEqual(validate(self.root).errors, [])
+
+    def test_invalid_baseline_record_kind_rejected(self):
+        self.put('.agents/baseline.json', json.dumps({
+            'record_kind': 'unknown-baseline-kind',
+            'release': {'commit': 'a' * 40},
+            'sources': []}))
+        self.assertTrue(any('invalid baseline record kind' in e
+                            for e in validate(self.root).errors))
+
     def test_invalid_baseline_sha_rejected(self):
         self.put('.agents/baseline.json', json.dumps({
             'record_kind': 'active-source-baseline', 'release': {'commit': 'short'}, 'sources': []}))

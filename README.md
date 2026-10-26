@@ -2,9 +2,9 @@
 
 DeepSeek Harness向けプラグインの開発・レビューで得た知見と、独立したプラグインリポジトリへ持ち込めるSkillsをまとめています。実行プラグイン本体は含みません。
 
-## 現在の基準
+## 2026-10-15時点の固定ソース基準
 
-**2026-10-15のソース確認基準はDSH `0.2.1-alpha.3` / `2fbf4359b82fb94c03dcce0b831660d87f12ea5c`です。** 公開版と開発中のmasterを分けています。まず[現在の開発基準](docs/current-baseline.md)を読み、変更する領域の資料へ進んでください。
+**このalpha.3資料は2026-10-15時点の歴史的なソース確認記録であり、最新基準ではありません。** 公開版と開発中のmasterを分けた当時の記録です。対象版がalpha.3以降の場合は、その公開Releaseと所属packageのソースを確認してください。まず[alpha.3の固定基準記録](docs/current-baseline.md)を読み、変更する領域の資料へ進んでください。
 
 今回、更新・HMR、Remoteのprincipal/Peer、profile別の資格情報、Session/projection、解除順序、responsive UIを再確認しました。[本家・外部の開発と不具合の分析](docs/workflow/upstream-2026-10-15.md)には、未mergeのPR、追加修正、mockの限界、障害中の性能をどう開発手順へ反映するかを記録しています。
 
@@ -14,7 +14,7 @@ DeepSeek Harness向けプラグインの開発・レビューで得た知見と�
 
 | やりたいこと | 文書 |
 | --- | --- |
-| 現行DSHで変わった契約を確認する | [現在の開発基準](docs/current-baseline.md) |
+| alpha.3 (2026-10-15)で確認した契約を見る | [固定基準記録](docs/current-baseline.md) |
 | 開発エージェントの指示とSkillsを用意する | [.agentsの使い方・22 Skills](.agents/README.md) |
 | 上流と人気プラグインの変化を追う | [2026-10-15の分析と更新手順](docs/workflow/upstream-2026-10-15.md) |
 | レビューを始める | [レビューの進め方](docs/review.md) |
@@ -25,7 +25,7 @@ DeepSeek Harness向けプラグインの開発・レビューで得た知見と�
 | 他pluginとの併用を設計する | [干渉を避ける](docs/plugin-coexistence.md)・[機能を選ぶ](docs/recommended-features.md) |
 | 検証と公開を記録する | [テスト](docs/testing.md)・[レビュー報告](templates/review-report.md)・[公開確認](templates/release-checklist.md)・[解決記録](templates/issue-resolution.md) |
 
-2026-10-13を基準にした各章は、当時の実例と一般的な設計観点を残したものです。APIや挙動が競合する場合は、現在の基準と対象版の所有packageを確認します。更新・再起動の旧ガイドは[更新ボタンalpha.2版](docs/update-button-alpha2.md)・[再起動alpha.2版](docs/update-and-restart-alpha2.md)へ、内容を変えずに分離しました。
+2026-10-13を基準にした各章は、当時の実例と一般的な設計観点を残したものです。APIや挙動が競合する場合は、alpha.3の固定記録だけで判断せず、対象版の所有packageを確認します。更新・再起動の旧ガイドは[更新ボタンalpha.2版](docs/update-button-alpha2.md)・[再起動alpha.2版](docs/update-and-restart-alpha2.md)へ、内容を変えずに分離しました。
 
 ## この文書の前提
 

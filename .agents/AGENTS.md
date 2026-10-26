@@ -4,7 +4,7 @@
 
 ## 対象版と読む範囲
 
-現在の確認基準はDSH `0.2.1-alpha.3` / `2fbf4359b82fb94c03dcce0b831660d87f12ea5c`です。これはソース読解の基準で、全pluginの実行互換性を認定するものではありません。[baseline.json](baseline.json)が現在の確認対象、[upstream.json](upstream.json)が最初の19 Skillsの導入元です。2026-10-13の固定SHAと試験結果を最新版へ読み替えません。
+2026-10-15確認のDSH `0.2.1-alpha.3` / `2fbf4359b82fb94c03dcce0b831660d87f12ea5c`は、日付を固定した歴史的なソース読解記録であり、最新基準ではありません。全pluginの実行互換性も認定しません。[baseline.json](baseline.json)はその固定記録、[upstream.json](upstream.json)は最初の19 Skillsの導入元です。新しい作業では対象版の公開Releaseと所属packageのソースを確認し、過去の固定SHAと試験結果を最新版へ読み替えません。
 
 公開Release、npmの配布先、開発branchを分けます。別の版では実際のAPIを読み、変更されたservice・event・provider・slot・保存形式の所有packageから確認します。Skill本文が同じでも参照APIが同じとは限りません。
 

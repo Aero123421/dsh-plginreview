@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "record_kind": "active-source-baseline",
+  "record_kind": "historical-source-baseline",
   "checked_on_jst": "2026-10-15",
   "repository": "deepseek-ai/deepseek-harness",
   "release": {

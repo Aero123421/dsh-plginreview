@@ -1,10 +1,12 @@
-# 現在のDSH開発基準
+# 2026-10-15時点のDSH alpha.3ソース基準（歴史的記録）
 
-2026-10-15確認。基準は **DSH 0.2.1-alpha.3**、タグ `dsh-v0.2.1-alpha.3`、コミット `2fbf4359b82fb94c03dcce0b831660d87f12ea5c`。これはプレリリースであり、安定版やnpmの `latest` と同義ではありません。
+このページは2026-10-15時点で確認した固定スナップショットです。対象は **DSH 0.2.1-alpha.3**、タグ `dsh-v0.2.1-alpha.3`、コミット `2fbf4359b82fb94c03dcce0b831660d87f12ea5c`。最新のソース基準ではありません。これはプレリリースであり、安定版やnpmの `latest` と同義ではありません。
+
+その後、公式 `dsh-v0.2.1-rc.2` が2026-10-17に公開されています ([Release](https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.1-rc.2))。alpha.3の契約を新しい版へ一般化せず、対象版の公開Releaseと所属packageのソースを読み直してください。例えば、rc.2の `app-boot` は `engines.dsh` をdsh peerより優先する互換判定を公開しています ([source](https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.2.1-rc.2/packages/boot/app-boot/src/plugin-compatibility.ts)).
 
 [公開Release](https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.1-alpha.3)は2026-10-14 22:32:15 JSTに公開されています。別に取得した開発先頭は `571902028a75c64c1d767f4ae5fd099485f0ddf0`。公開版から16コミット先ですが、その差分を公開済みの契約へ混ぜません。旧基準alpha.2から公開版までの比較は852コミットです。件数は期間を揃えた開発速度の測定ではなく、比較APIのファイル一覧も全差分ではありません。
 
-このページは今後の設計・レビューの入口です。2026-10-13の32リポジトリ調査、npm検査、自作7件の試験は当時の版に対する記録として残します。版を読み替えてalpha.3での検証済みにしません。適用先の版が違う場合は、対応するソースを読み直してください。
+このページはalpha.3の設計・レビュー用スナップショットです。2026-10-13の32リポジトリ調査、npm検査、自作7件の試験は当時の版に対する記録として残します。版を読み替えてalpha.3での検証済みにしません。適用先の版が違う場合は、対応するソースを読み直してください。
 
 ## 変更と再確認する経路
 
