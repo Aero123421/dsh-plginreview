@@ -1,69 +1,59 @@
 # DSHプラグインの開発・レビュー記録
 
-DeepSeek Harness向けに作ったプラグインのレビューで見つかった問題と、インストール・更新・配布の手順をまとめています。次のプラグインを作るときや、既存の実装を見直すときに使うための文書です。
+DeepSeek Harness向けプラグインの開発・レビューで得た知見と、独立したプラグインリポジトリへ持ち込めるSkillsをまとめています。実行プラグイン本体は含みません。
 
-自作の日本語化、Piログイン、PWA、検索プロバイダー、Remora、Glass UI、CFに加え、公式bundleと外部実装を調べています。最初の12件の比較後、人気プラグインと周辺実装32リポジトリを深掘りしました。確認したコミットと修正PRは[参照元](docs/sources.md)にあります。
+## 2026-10-15時点の固定ソース基準
 
-開発エージェント向けの共通ルールと19種のSkillsを [.agents](.agents/README.md) に置いています。DSH公式の資料を独立plugin向けに調整し、各Skillを別のリポジトリへ持ち込める形にしています。
+**このalpha.3資料は2026-10-15時点の歴史的なソース確認記録であり、最新基準ではありません。** 公開版と開発中のmasterを分けた当時の記録です。対象版がalpha.3以降の場合は、その公開Releaseと所属packageのソースを確認してください。まず[alpha.3の固定基準記録](docs/current-baseline.md)を読み、変更する領域の資料へ進んでください。
+
+今回、更新・HMR、Remoteのprincipal/Peer、profile別の資格情報、Session/projection、解除順序、responsive UIを再確認しました。[本家・外部の開発と不具合の分析](docs/workflow/upstream-2026-10-15.md)には、未mergeのPR、追加修正、mockの限界、障害中の性能をどう開発手順へ反映するかを記録しています。
+
+これは全プラグインのalpha.3実行互換性を認定する更新ではありません。今回のruntime・実OAuth・実OS別UI・自作7件共存試験は未実施です。確認した公開ソースと限界は[基準記録](.agents/baseline.json)と[外部事例の記録](data/upstream-refresh-2026-10-15.json)を参照してください。
 
 ## 読む場所
 
 | やりたいこと | 文書 |
 | --- | --- |
-| 開発エージェントの指示とSkillsを用意する | [.agentsの使い方と一覧](.agents/README.md) |
+| alpha.3 (2026-10-15)で確認した契約を見る | [固定基準記録](docs/current-baseline.md) |
+| 開発エージェントの指示とSkillsを用意する | [.agentsの使い方・22 Skills](.agents/README.md) |
+| 上流と人気プラグインの変化を追う | [2026-10-15の分析と更新手順](docs/workflow/upstream-2026-10-15.md) |
 | レビューを始める | [レビューの進め方](docs/review.md) |
-| Issueから公開・利用者確認までの詰まりを調べる | [解決フローの分析](docs/workflow/README.md) |
-| 過去の不具合を調べる | [よくあった問題と修正例](docs/common-problems.md) |
-| 公式・人気の外部プラグインを比較する | [外部プラグインの実装調査](docs/ecosystem/README.md) |
-| 人気プラグインの実行・保存・解除・更新を深く読む | [32リポジトリの経路分析](docs/ecosystem/deep-topic.md) |
-| 外部実装から自作プラグインへ取り込む設計を選ぶ | [横断比較と確認項目](docs/ecosystem/deep-patterns.md) |
-| UIやCLIから導入できるようにする | [インストールとパッケージ構成](docs/installation.md) |
-| 更新の種類と追従方針を決める | [プラグイン・モデル・DSHの更新](docs/updates.md) |
-| 設定画面に更新ボタンを作る | [更新ボタンの設計](docs/update-button.md) |
-| 自作7プラグインの公開版・更新操作・実装例を確認する | [自作プラグイン一覧](docs/own-plugins.md) |
-| 更新機能の修正と検証結果を調べる | [更新機能の実装記録](docs/update-implementation.md) |
-| 更新後に設定欄が出ない・旧版のまま動く | [更新後の反映と再起動](docs/update-and-restart.md) |
-| 次のプラグインに持たせる機能を決める | [搭載する機能](docs/recommended-features.md) |
-| 他プラグインとの併用を設計する | [干渉を避ける実装と確認項目](docs/plugin-coexistence.md) |
-| DSHに合う設定画面を作る | [UI・日本語化・フォント](docs/ui.md) |
-| 認証、モデル、検索ツールを追加する | [プロバイダーとツールの拡張](docs/integration.md) |
-| Hostの権限や保存処理を見直す | [権限・保存・外部通信](docs/security-and-storage.md) |
-| テストとCIを組む | [テストとCI](docs/testing.md) |
-| GitHubで公開する | [配布とリリース](docs/release.md) |
-| レビュー結果を書き残す | [レビュー報告テンプレート](templates/review-report.md) |
-| リリース前の確認を記録する | [リリース確認テンプレート](templates/release-checklist.md) |
+| 過去の不具合と修正を調べる | [よくあった問題](docs/common-problems.md)・[Issueから解決まで](docs/workflow/README.md) |
+| 導入・公開物を確認する | [インストール](docs/installation.md)・[配布とリリース](docs/release.md) |
+| 更新を設計する | [更新の種類](docs/updates.md)・[更新ボタン](docs/update-button.md)・[反映と再起動](docs/update-and-restart.md) |
+| UI・認証・tool・保存を拡張する | [UI](docs/ui.md)・[拡張点](docs/integration.md)・[権限と保存](docs/security-and-storage.md) |
+| 他pluginとの併用を設計する | [干渉を避ける](docs/plugin-coexistence.md)・[機能を選ぶ](docs/recommended-features.md) |
+| 検証と公開を記録する | [テスト](docs/testing.md)・[レビュー報告](templates/review-report.md)・[公開確認](templates/release-checklist.md)・[解決記録](templates/issue-resolution.md) |
 
-## 用語
-
-| 用語 | この文書での意味 |
-| --- | --- |
-| Host | DSHの処理・保存・外部通信を実行する側。Webではサーバー側のprocess |
-| Client | ブラウザーやアプリ内で画面を表示する側 |
-| profile | 起動するプラグインと設定の構成。変更はそのprofileを使うSessionに影響する |
-| bundle | DSHへの登録patchを含み、管理画面から導入・有効化できるpackage |
-| HMR | 実行中の構成を再読み込みし、プラグインを解除・登録する仕組み |
-| wire model | APIや通信に使うmodel ID。表示名・画面の選択IDとは区別する |
-
-## 最初に確認すること
-
-1. 配布するGitHubタグや`.tgz`を、作業用リポジトリとは別のDSH環境にインストールする。
-2. 設定の再取得・保存・接続切り替えで、古い結果が新しい状態を上書きしないか確認する。
-3. 無効化・アンインストール後に、登録したツール、イベント、タイマー、通信、CSSが残らないか確認する。
-4. 更新後の保存設定、資格情報、ON/OFF状態と、実際に動いている版を確認する。
-5. 実際のDSH画面で、設定パネルの狭い幅、日本語、キーボード操作を確認する。
+2026-10-13を基準にした各章は、当時の実例と一般的な設計観点を残したものです。APIや挙動が競合する場合は、alpha.3の固定記録だけで判断せず、対象版の所有packageを確認します。更新・再起動の旧ガイドは[更新ボタンalpha.2版](docs/update-button-alpha2.md)・[再起動alpha.2版](docs/update-and-restart-alpha2.md)へ、内容を変えずに分離しました。
 
 ## この文書の前提
 
-2026-10-13時点の公開リポジトリと修正PRを調べています。DSH本体のAPIは`0.2.1-alpha.2`、コミット`d743267388641bc76f17c45ce8b4c231aed1d32c`を基準にしています。新しいDSHで同じAPIや動作が続くことを保証するものではありません。
+自作の日本語化、Piログイン、PWA、検索プロバイダー、Remora、Glass UI、CFを[自作一覧](docs/own-plugins.md)と[更新実装の記録](docs/update-implementation.md)にまとめています。記載版と試験は2026-10-13の確認時点に属し、現在の各repoの最新版やalpha.3対応を意味しません。
 
-過去に修正した事例、確認版の仕様、今後の設計案を区別して書いています。更新ボタンの章には、既存実装をそのままコピーすると残る問題も含めています。文書中の「推奨」「設計案」は、このリポジトリで実装済みの機能を意味しません。
+[外部プラグインの調査](docs/ecosystem/README.md)は、最初の12件の比較と、その後の31プロジェクト・EverOS adapter移転先を合わせた[32リポジトリの深掘り](docs/ecosystem/deep-topic.md)です。[横断比較](docs/ecosystem/deep-patterns.md)、topic検索上位1,000件の条件、15 packageの配布物検査も当時の固定記録として残しています。スター数は採用実績や品質の認定ではありません。
 
-外部pluginは最初の12件のソース比較とnpm配布物8種類の確認を行い、その後の[深掘り](docs/ecosystem/deep-topic.md)で32リポジトリの固定ソースとIssue/PRを調べました。分析はGPT-6.1-solのmediumで分担し、担当外の章も相互レビューしています。topic検索上位1,000件の取得記録、候補の分類と人気指標は[調査条件](docs/ecosystem/topic-method.md)、npm配布物15種類の追加確認は[配布物の記録](docs/ecosystem/deep-package-checks.md)にあります。限定helperの再現と、全pluginの実起動・実API確認は分けています。
+2026-10-13のPWA `0.1.0`→`0.2.0`更新でHost再起動が必要だった再現、初期7件の同時起動、各PRの検証報告を、今回の再試験結果へ置き換えていません。固定ソースの一覧は[参照元](docs/sources.md)にあります。
 
-Issueから解決までの分析では、自作6repositoryのIssue・PR・CI・Releaseと、外部6事例・公式discussionを追いました。時刻と解決範囲、追加修正の理由は[フローの分析](docs/workflow/README.md)、取得範囲と判断の限界は[調査方法](docs/workflow/evidence.md)に記録しています。
+## 用語
 
-自作7repositoryには更新機能が入り、対象Issueはすべてclosedです。2026-10-13 12:22 UTCから公開Release、タグ、mainのpackage、IssueとPRを照合しました。[一覧](docs/own-plugins.md)に現在の公開版と実装例、[実装記録](docs/update-implementation.md)に修正・検証範囲とDSH/pnpmの導入条件があります。PWA `0.3.0`のモバイル表示、Glass UI `0.2.2`の設定・描画変更も反映しています。
+| 用語 | 意味 |
+| --- | --- |
+| Host | 処理・保存・外部通信を行うDSH側。Webではサーバーprocess |
+| Client | ブラウザーやアプリで画面を表示する側 |
+| profile | 起動するpluginと設定の構成 |
+| bundle | DSHへの登録patchを持つ配布package |
+| HMR | 実行中の構成や対象moduleを再構成する仕組み |
+| wire model | APIへ送るmodel ID。画面の表示名・選択IDとは区別 |
 
-PWA `0.1.0`から`0.2.0`への更新では、導入版が新しくなってもブラウザーの再読み込みだけでは設定欄が出ないことを再現しました。[更新後の反映と再起動](docs/update-and-restart.md)に、Hostのmetadataキャッシュ、導入版と実行版の違い、確認手順をまとめています。最新のPWA・Glass UIを含む7件の共存試験を今回やり直したわけではありません。
+## 最初に確認すること
 
-新しい問題を追加するときは、発生条件、影響、修正、失敗を再現する確認方法、PRまたはコミットを残してください。未検証のAPI接続やOSを「対応済み」に含めないでください。
+1. 対象DSH・plugin・profile・配布物を固定し、公開経路と実行中の版を区別する。
+2. 古い非同期結果、権限変更、取消、自己解除が新しい状態を壊さないか確認する。
+3. 受け付け済み処理の最終保存が終わる前に、依存service・listenerを閉じない。
+4. 更新は候補・削除・導入・実行版・Client反映を分け、失敗後の状態も記録する。
+5. 変更に合う検証を選び、作者報告・コード読解・今回の実行・未確認を分ける。
+
+## 文書とSkillsの検査
+
+完全なcheckoutでは `python3 scripts/validate_docs.py` でJSON、Skill frontmatter、同梱LICENSE、相対リンクとローカル見出しを検査できます。`python3 -m unittest discover -s scripts -p 'test_validate_docs.py'` は検査器自体の小さいfixtureを確認します。これらは文書の形式検査で、記述されたAPIの動作やpluginの実行試験を代替しません。

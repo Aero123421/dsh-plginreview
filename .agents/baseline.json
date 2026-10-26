@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "record_kind": "historical-source-baseline",
+  "checked_on_jst": "2026-10-15",
+  "repository": "deepseek-ai/deepseek-harness",
+  "release": {
+    "version": "0.2.1-alpha.3",
+    "tag": "dsh-v0.2.1-alpha.3",
+    "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+    "prerelease": true,
+    "published_at": "2026-10-14T13:32:15Z"
+  },
+  "development_snapshot": {
+    "ref": "master",
+    "commit": "571902028a75c64c1d767f4ae5fd099485f0ddf0",
+    "commits_ahead_of_release": 16,
+    "status": "not-the-release-baseline"
+  },
+  "previous_release_baseline": {
+    "version": "0.2.1-alpha.2",
+    "commit": "d743267388641bc76f17c45ce8b4c231aed1d32c",
+    "compare_total_commits": 852
+  },
+  "original_adaptation_provenance": "upstream.json",
+  "scope": "Selected public contracts and Skills read at the pinned release; not a full audit of all upstream files or all 19 original Skills.",
+  "not_verified": [
+    "npm dist-tags and tarballs",
+    "DSH runtime tests",
+    "real OAuth and model calls",
+    "OS/device UI",
+    "seven own-plugin compatibility and coexistence"
+  ],
+  "sources": [
+    {
+      "id": "manager",
+      "path": "packages/boot/plugin-manager/README.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": null,
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/packages/boot/plugin-manager/README.md"
+    },
+    {
+      "id": "install-over",
+      "path": "docs/upgrade-guide/v0.2.1-alpha.2/plugin-install-over-installed/guide.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "53b51a111317b56bc7b287266fc3d38677bea629",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/docs/upgrade-guide/v0.2.1-alpha.2/plugin-install-over-installed/guide.md"
+    },
+    {
+      "id": "reload",
+      "path": ".agents/notes/implemented/architecture/2026-10-01-replace-changed-package-modules-on-recomposition.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "f599d864076b02f610dc90bba7c2ea7431f96df7",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/notes/implemented/architecture/2026-10-01-replace-changed-package-modules-on-recomposition.md"
+    },
+    {
+      "id": "reload-tests",
+      "path": "packages/boot/plugin-manager/tests/package-reload.spec.ts",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "b5569a6229951db9ba8c1c0d01e7f7f72cfe1913",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/packages/boot/plugin-manager/tests/package-reload.spec.ts"
+    },
+    {
+      "id": "remote-access",
+      "path": "packages/api/remote-access/README.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "8d9df9e542e48dc39b6cffd5859ab71274aefa3a",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/packages/api/remote-access/README.md"
+    },
+    {
+      "id": "peer",
+      "path": ".agents/notes/implemented/architecture/2026-10-12-peer-principal-and-remote-access.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "324606f3ab356528ac2550da271716e5e40ba447",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/notes/implemented/architecture/2026-10-12-peer-principal-and-remote-access.md"
+    },
+    {
+      "id": "stored-credentials",
+      "path": ".agents/notes/implemented/architecture/2026-10-09-stored-credential-precedence.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "75997d9db0d2bd84021fb7c0d261fb8805274ac4",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/notes/implemented/architecture/2026-10-09-stored-credential-precedence.md"
+    },
+    {
+      "id": "headless",
+      "path": ".agents/notes/implemented/architecture/2026-10-12-headless-environment-auth.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "0a497c44e753108d25ed02401531c3ecad4e1e41",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/notes/implemented/architecture/2026-10-12-headless-environment-auth.md"
+    },
+    {
+      "id": "session",
+      "path": "packages/core/session/README.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "178dc708b878d8648942c7b6124c59f69db71a8a",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/packages/core/session/README.md"
+    },
+    {
+      "id": "projection",
+      "path": "docs/defensive-patterns/conversation-and-session.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": null,
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/docs/defensive-patterns/conversation-and-session.md"
+    },
+    {
+      "id": "prompt",
+      "path": ".agents/notes/implemented/bug-fix/2026-10-11-process-specific-prompt-values-in-runtime-context.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "86bda9b2a6961d3e4a0c067b52ca042d28beffcb",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/notes/implemented/bug-fix/2026-10-11-process-specific-prompt-values-in-runtime-context.md"
+    },
+    {
+      "id": "plugin-skill",
+      "path": "packages/preset/agent-preset/skills/cordis-plugin-development/SKILL.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "938798a37451b2c2d9ffb842d7db46edf435f670",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/packages/preset/agent-preset/skills/cordis-plugin-development/SKILL.md"
+    },
+    {
+      "id": "review-skill",
+      "path": ".agents/skills/dsh-code-review/SKILL.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "2dd48bda56b0d4481f408ac78ea82aa6ff0c4fda",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/skills/dsh-code-review/SKILL.md"
+    },
+    {
+      "id": "prepush-skill",
+      "path": ".agents/skills/dsh-pre-push-checks/SKILL.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "3d55a9dece93020dfaa87a9418cc6c01ed9fc556",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/skills/dsh-pre-push-checks/SKILL.md"
+    },
+    {
+      "id": "responsive-skill",
+      "path": ".agents/skills/dsh-responsive-ui/SKILL.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "a9ee2f3a37864faa77f48eaa136feca681d2a2e5",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/skills/dsh-responsive-ui/SKILL.md"
+    },
+    {
+      "id": "lifecycle-skill",
+      "path": ".agents/skills/cordis-styling-nitpicking/SKILL.md",
+      "commit": "2fbf4359b82fb94c03dcce0b831660d87f12ea5c",
+      "blob_sha": "acfaf3549204f64e2c8f0e06e9dc46c388d36178",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/skills/cordis-styling-nitpicking/SKILL.md"
+    }
+  ],
+  "new_skills": {
+    "dsh-responsive-ui": "responsive-skill",
+    "dsh-lifecycle-audit": "lifecycle-skill",
+    "dsh-upstream-refresh": "local synthesis; review-skill, prepush-skill and public case research"
+  },
+  "license": "MIT; original attribution retained in LICENSE files"
+}

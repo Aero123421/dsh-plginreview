@@ -1,29 +1,31 @@
 # 拡張点と共存
 
-service、provider、event、tool、slotの最も小さい拡張で目的を満たします。保存状態とmodel-visible情報の所有者を確認し、plugin内cacheを永続記録の代わりにしません。
+確認基準: DSH `0.2.1-alpha.3` / `2fbf4359b82fb94c03dcce0b831660d87f12ea5c`。service、provider、event、tool、slotの小さい拡張で目的を満たします。
 
-基準版向けの独立pluginでは、対象DSHが知らないtypeを `Session.append()` へ追加しません。モデルへ渡す内容は既存のmessage・tool結果や確認済みのagent APIを使い、plugin固有の保存状態は利用できるstorage APIへ置きます。`appendPluginRecord()` は本体の実験package用で、外部plugin向けの保存入口ではありません。本体のeventや保存形式を変える依頼では、その変更に必要なreader互換性とmigrationを確認します。
+## Sessionとモデル入力
 
-根拠: [外部pluginの利用制約](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/core/session/README.md#L70)、[appendの実装](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/core/session/src/index.ts#L798)、[未知eventの復元時検査](https://github.com/deepseek-ai/deepseek-harness/blob/d743267388641bc76f17c45ce8b4c231aed1d32c/packages/session/session-format-v3-to-v4/src/validation.ts#L58)。
+[Sessionの契約](https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/packages/core/session/README.md)を読み、モデルへ渡す内容を記録済みmessage・tool結果等の確認済み入口へ通します。独立pluginは未知のevent typeを `Session.append()` へ追加せず、本体experimental専用 `appendPluginRecord()` を使いません。
+
+Session由来の表示・計算は[projection](https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/docs/defensive-patterns/conversation-and-session.md)を確認します。新しいproductionコードに `eventAt()` / `snapshotEvents()` / `ownEvents()` の全履歴scanを足しません。cache missはunknown等の状態にし、Clientで自動的に全log読取りへfallbackしません。Hostに必要なcold readまで一律禁止するルールではありません。
+
+projectionのfoldや保存stateを変えたら `stateVersion` を更新し、resume・forkを検査します。Sessionの保持は明示的な参照と解除で追います。保存完了を約束する処理は、必要な所有serviceのflushをawaitし、そのlistenerを先に閉じません。
+
+[動的prompt値の事例](https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/notes/implemented/bug-fix/2026-10-11-process-specific-prompt-values-in-runtime-context.md)のように、port・path変更も過去のprefixを壊し得ます。記録されるruntime contextと安定した指示を分け、旧履歴の意味を無断で変えません。UI追加を理由にpersona、token saver、context gateまで変更しません。
 
 ## scopeと権限
 
-global登録の成功は、agentのtool一覧へ出ることの証明ではありません。同名のscoped toolやrestrict、親子Sessionの選択を含めて、実際のschemaとdispatchを確認します。
+global登録成功だけで実agentのtool一覧・schema・dispatchを保証しません。restrict、guard、waterfall、prompt assemblyは異なる影響を持ちます。自分が処理しないwaterfallは `next()` へ渡し、他pluginの拒否や無関係なdecision fieldを保ちます。
 
-ツールを減らすrestrict、拒否を追加するguard、引数や結果を書き換えるwaterfall、prompt全体のassemblyは影響が異なります。利用者が求めた動作を満たす範囲を選び、他pluginの拒否を緩めません。waterfallを委譲するときは `next()` を呼び、decisionの関係ないfieldを維持します。
-
-UIやログイン追加を理由に、persona、context gate、token saver、agent loopの変更まで同時に入れません。モデル動作を変える機能はその目的と確認を分けます。
+[Remote access](https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/packages/api/remote-access/README.md)ではHostが所有するprincipalとmethod/resourceを照合します。認証済みというだけでownerへfallbackせず、直接HTTP・一覧・stream・失効後を別に確認します。UIの表示条件だけで認可を代用しません。globalとSession/Workspaceの許可は自動継承されません。
 
 ## 所有と非同期処理
 
-process handle、route、CSS、設定namespace、credential key、callback、timerの所有を列挙します。pluginのOFF、接続の再生成、Session終了、service停止は別の寿命です。
+process、route、CSS、credential、callback、timerの所有者を列挙します。plugin OFF、接続再生成、Session終了、service停止は別の寿命です。module globalの可変cacheを、contextごとの状態と混ぜません。
 
-古い接続・認証試行・編集の完了を、現在の状態へ反映しません。generation、request ID、candidate ID等は、識別すべき操作に合わせます。値が同じという比較だけで別の編集を同一視しません。
+[本家のlifecycle監査](https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/skills/cordis-styling-nitpicking/SKILL.md)が示す通り、同じfiberの解除が並行すると、consumerの最終保存より先にwriterが閉じる場合があります。必要な資源を保って受け付け済み処理を終え、その後に解除する所有関係を明示します。injectや逆順登録だけで完了順を推測せず、root/parent停止も確認します。
 
-共有DOM/CSS変数の復元は、自分が設定した値をまだ所有する場合に限ります。共有設定は所有serviceの原子的更新やrevision付き更新を使い、現在値の対象fieldだけを変更します。自分で排他を持つ場合は、最新値の読取りから保存までをその内側へ置きます。別pluginの登録やクラウド資源を名前の一致だけで削除しません。
+古い接続・認証試行・編集の完了を現在へ反映しません。共有DOM/CSSの復元はまだ自分が所有する値に限り、設定は対象fieldだけを原子的・revision付きで更新します。排他を自前で持つ場合は最新値の読取りから保存までを内側へ置きます。
 
 ## 併用確認
 
-共有する資源がある組合せを選び、A→BとB→A、片方のOFF/ON・reloadを確認します。proxyはHost/Origin等の管理元判定を変えないこと、PWAは他worker/cacheを一括削除しないことも、対象機能に応じて確認します。
-
-基準となる実例は[共存の調査](https://github.com/Aero123421/dsh-plginreview/blob/main/docs/plugin-coexistence.md)、設計の比較は[横断分析](https://github.com/Aero123421/dsh-plginreview/blob/main/docs/ecosystem/deep-patterns.md)にあります。全組合せの試験を毎回要求せず、今回共有・変更した境界から選びます。
+共有資源を持つ組合せについてA→B、B→A、片方のOFF/ON・reloadを選びます。別pluginのCSS・worker/cache・process・クラウド資源を名前一致で一括削除しません。全組合せの毎回試験ではなく、今回共有・変更した境界から確認範囲を選びます。
