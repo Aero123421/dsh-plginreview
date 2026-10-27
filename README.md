@@ -56,4 +56,4 @@ DeepSeek Harness向けプラグインの開発・レビューで得た知見と�
 
 ## 文書とSkillsの検査
 
-完全なcheckoutでは `python3 scripts/validate_docs.py` でJSON、Skill frontmatter、同梱LICENSE、相対リンクとローカル見出しを検査できます。`python3 -m unittest discover -s scripts -p 'test_validate_docs.py'` は検査器自体の小さいfixtureを確認します。これらは文書の形式検査で、記述されたAPIの動作やpluginの実行試験を代替しません。
+完全なcheckoutでは `python3 scripts/validate_docs.py` でJSON、Skill frontmatter、同梱LICENSE、相対リンクとローカル見出しを検査できます。`python3 -m unittest discover -s scripts -p 'test_validate_docs.py'` は検査器自体の小さいfixtureを確認します。同じ二つのコマンドを、pull requestと`main`へのpushで GitHub Actions の `docs` workflow が実行します。これらは文書の形式検査で、記述されたAPIの動作やpluginの実行試験を代替しません。
