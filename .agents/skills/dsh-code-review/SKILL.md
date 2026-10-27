@@ -10,7 +10,7 @@ live base/headを確認し、要求と所有する契約を読んでからdiff�
 
 ## 版と根拠を固定する
 
-現在のソース基準はDSH `0.2.1-alpha.3` / `2fbf4359b82fb94c03dcce0b831660d87f12ea5c`。公開Release、開発branch、実インストール版、packageの宣言を分けます。[本家レビュー規約](https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/skills/dsh-code-review/SKILL.md)の専用コマンドや承認経路を、独立repoにもあると仮定しません。
+2026-10-15時点の固定ソース記録はDSH `0.2.1-alpha.3` / `2fbf4359b82fb94c03dcce0b831660d87f12ea5c`であり、最新基準ではありません。公開Release、開発branch、実インストール版、packageの宣言を分けます。[本家レビュー規約](https://github.com/deepseek-ai/deepseek-harness/blob/2fbf4359b82fb94c03dcce0b831660d87f12ea5c/.agents/skills/dsh-code-review/SKILL.md)の専用コマンドや承認経路を、独立repoにもあると仮定しません。
 
 ## 追う経路
 

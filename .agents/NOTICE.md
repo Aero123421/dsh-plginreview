@@ -10,7 +10,7 @@
 
 ## 2026-10-15の更新
 
-[baseline.json](baseline.json) のDSH `0.2.1-alpha.3` / `2fbf4359b82fb94c03dcce0b831660d87f12ea5c` を新しいソース基準とします。公開Releaseとmasterは分離します。旧19種のすべてを新しい公式blobへ置き換えた記録ではありません。
+[baseline.json](baseline.json) のDSH `0.2.1-alpha.3` / `2fbf4359b82fb94c03dcce0b831660d87f12ea5c` を、2026-10-15時点のソース基準としました。これは最新基準ではありません。公開Releaseとmasterは分離します。旧19種のすべてを新しい公式blobへ置き換えた記録ではありません。
 
 - `cordis-plugin-development` と更新・共存の参照資料を、manager、Remote access、Session、再構成の契約に合わせて更新しました。
 - `dsh-code-review`、`dsh-pre-push-checks`、`dsh-client-ui-ux`、`dsh-speed-up-perf` を、上流契約・反例・障害中の処理・実際の表示範囲を確認する形へ更新しました。
