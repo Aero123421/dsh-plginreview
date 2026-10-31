@@ -1,5 +1,7 @@
 """Regression fixtures for the offline document checker, not DSH runtime tests."""
 import json
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -94,6 +96,56 @@ class DocumentChecks(unittest.TestCase):
     def test_repository_escape_rejected(self):
         self.put('README.md', '[Outside](../outside.md)\n')
         self.assertTrue(any('escapes repository' in e for e in validate(self.root).errors))
+
+    def test_anchor_attribute_after_class(self):
+        self.put('README.md', '# T\n<a class="x" id="explicit"></a>\n[E](#explicit)\n')
+        self.assertEqual(validate(self.root).errors, [])
+
+    def test_inline_code_and_comments_are_not_links(self):
+        self.put('README.md', '# T\n`[nope](not-real.md)`\n<!-- [nope](not-real.md) -->\n[Yes](also-missing.md)\n')
+        errors = validate(self.root).errors
+        self.assertTrue(any('also-missing.md' in e for e in errors))
+        self.assertFalse(any('not-real.md' in e for e in errors))
+
+    def test_comment_heading_is_not_an_anchor(self):
+        self.put('README.md', '# T\n<!--\n# Hidden\n-->\n[H](#hidden)\n')
+        self.assertTrue(any('missing heading' in e for e in validate(self.root).errors))
+
+    def test_unclosed_comment_does_not_hide_later_link(self):
+        self.put('README.md', '# T\n<!-- still open\n[Missing](missing.md)\n')
+        self.assertTrue(any('missing target' in e for e in validate(self.root).errors))
+
+    def test_single_quoted_title_and_angle_destination(self):
+        self.put('README.md', "# T\n[A](missing.md 'title')\n[B](<missing file.md>)\n[C](there.md \"ok\")\n")
+        self.put('there.md', '# T\n')
+        errors = validate(self.root).errors
+        self.assertTrue(any('missing.md' in e for e in errors))
+        self.assertTrue(any('missing file.md' in e for e in errors))
+        self.assertFalse(any('there.md' in e for e in errors))
+
+    def test_null_byte_link_is_reported(self):
+        self.put('README.md', '[x](foo%00bar.md)\n[y](missing.md)\n')
+        errors = validate(self.root).errors
+        self.assertTrue(any('malformed link' in e for e in errors))
+        self.assertTrue(any('missing target' in e for e in errors))
+        proc = subprocess.run(
+            [sys.executable, str(Path(__file__).resolve().with_name('validate_docs.py')),
+             '--root', str(self.root)],
+            capture_output=True, text=True, check=False)
+        self.assertEqual(proc.returncode, 1)
+        self.assertIn('malformed link', proc.stderr)
+        self.assertNotIn('Cannot start validation', proc.stderr)
+
+    def test_undecodable_fragment_target_is_reported(self):
+        self.put('README.md', '[x](bad.md#h)\n')
+        (self.root / 'bad.md').write_bytes(b'\xff\xfe')
+        errors = validate(self.root).errors
+        self.assertTrue(any('cannot read link target' in e for e in errors))
+
+    def test_known_paths_must_be_strings(self):
+        self.put('README.md', '# T\n')
+        with self.assertRaises(ValueError):
+            validate(self.root, known_paths={1})
 
 
 if __name__ == '__main__':

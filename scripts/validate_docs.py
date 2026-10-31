@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Check document structure offline; this does not validate DSH runtime behavior."""
+"""Check document structure offline; this does not validate DSH runtime behavior.
+
+Fenced blocks, inline code, and closed HTML comments are not links. Headings and
+explicit anchors inside those regions are not headings either.
+"""
 from __future__ import annotations
 
 import argparse
@@ -10,9 +14,86 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
-LINK = re.compile(r'!?\[[^\]\n]*\]\(([^\s)]+)(?:\s+"[^"\n]*")?\)')
+LINK = re.compile(
+    r'!?\[[^\]\n]*\]\(\s*(<[^>\n]+>|[^\s)]+)'
+    r'(?:\s+(?:"[^"\n]*"|\'[^\'\n]*\'))?\s*\)')
 FENCE = re.compile(r'^\s*(`{3,}|~{3,})')
 SHA = re.compile(r'^[0-9a-f]{40}$')
+ANCHOR_TAG = re.compile(r'<a\b[^>]*>', re.IGNORECASE)
+ANCHOR_ATTR = re.compile(r'\b(?:id|name)\s*=\s*["\']([^"\']+)["\']', re.IGNORECASE)
+
+
+def _span_end(text: str, start: int, size: int) -> int | None:
+    """Return the index after a closing backtick run of exactly `size`."""
+    cursor = start
+    token = '`' * size
+    while cursor < len(text):
+        found = text.find(token, cursor)
+        if found < 0:
+            return None
+        if found + size < len(text) and text[found + size] == '`':
+            cursor = found + 1
+            continue
+        return found + size
+    return None
+
+
+def _mask(chunk: str) -> str:
+    return ''.join('\n' if char == '\n' else ' ' for char in chunk)
+
+
+def strip_html_comments(text: str) -> str:
+    """Blank closed HTML comments, leaving backtick spans intact."""
+    out: list[str] = []
+    index = 0
+    while index < len(text):
+        if text[index] == '`':
+            end = index + 1
+            while end < len(text) and text[end] == '`':
+                end += 1
+            close = _span_end(text, end, end - index)
+            if close is None:
+                out.append(text[index])
+                index += 1
+                continue
+            out.append(text[index:close])
+            index = close
+            continue
+        if text.startswith('<!--', index):
+            close = text.find('-->', index + 4)
+            if close < 0:
+                out.append(text[index])
+                index += 1
+                continue
+            close += 3
+            out.append(_mask(text[index:close]))
+            index = close
+            continue
+        out.append(text[index])
+        index += 1
+    return ''.join(out)
+
+
+def mask_inline_code(text: str) -> str:
+    """Blank paired backtick spans so example links are not checked."""
+    out: list[str] = []
+    index = 0
+    while index < len(text):
+        if text[index] != '`':
+            out.append(text[index])
+            index += 1
+            continue
+        end = index + 1
+        while end < len(text) and text[end] == '`':
+            end += 1
+        close = _span_end(text, end, end - index)
+        if close is None:
+            out.append(text[index])
+            index += 1
+            continue
+        out.append(_mask(text[index:close]))
+        index = close
+    return ''.join(out)
 
 
 def prose(text: str) -> str:
@@ -32,9 +113,15 @@ def prose(text: str) -> str:
     return '\n'.join(result)
 
 
+def link_text(text: str) -> str:
+    return mask_inline_code(strip_html_comments(prose(text)))
+
+
 def anchors(text: str) -> set[str]:
-    clean = prose(text)
-    found = set(re.findall(r'<a\s+(?:id|name)=["\']([^"\']+)["\']', clean))
+    clean = strip_html_comments(prose(text))
+    found: set[str] = set()
+    for tag in ANCHOR_TAG.findall(clean):
+        found.update(ANCHOR_ATTR.findall(tag))
     counts: dict[str, int] = {}
     for title in re.findall(r'^#{1,6}\s+(.+?)\s*#*$', clean, re.MULTILINE):
         title = re.sub(r'<[^>]*>', '', title).strip().lower()
@@ -58,6 +145,8 @@ class Result:
 def validate(root: Path, selected: list[str] | None = None,
              known_paths: set[str] | None = None) -> Result:
     root = root.resolve()
+    if known_paths is not None and any(not isinstance(item, str) for item in known_paths):
+        raise ValueError('known paths must be strings')
     known = set(known_paths or ())
     result = Result()
     if selected is None:
@@ -118,7 +207,7 @@ def validate(root: Path, selected: list[str] | None = None,
             seen_names.add(name)
             if not (skill_root / 'LICENSE').is_file():
                 result.errors.append(f'{relative}: missing local LICENSE')
-        for raw in LINK.findall(prose(text)):
+        for raw in LINK.findall(link_text(text)):
             try:
                 url = urlsplit(raw.strip('<>'))
             except ValueError:
@@ -127,7 +216,11 @@ def validate(root: Path, selected: list[str] | None = None,
             if url.scheme or url.netloc:
                 continue
             result.links += 1
-            target = (path.parent / unquote(url.path)).resolve() if url.path else path
+            try:
+                target = (path.parent / unquote(url.path)).resolve() if url.path else path
+            except (OSError, ValueError) as error:
+                result.errors.append(f'{relative}: malformed link {raw}: {error}')
+                continue
             try:
                 target_relative = str(target.relative_to(root))
             except ValueError:
@@ -144,7 +237,12 @@ def validate(root: Path, selected: list[str] | None = None,
                 result.errors.append(f'{relative}: missing target {raw}')
             elif url.fragment and target.suffix == '.md':
                 if target.is_file():
-                    if unquote(url.fragment) not in anchors(target.read_text(encoding='utf-8')):
+                    try:
+                        target_text = target.read_text(encoding='utf-8')
+                    except (OSError, UnicodeError) as error:
+                        result.errors.append(f'{relative}: cannot read link target {raw}: {error}')
+                        continue
+                    if unquote(url.fragment) not in anchors(target_text):
                         result.errors.append(f'{relative}: missing heading {raw}')
                 else:
                     result.skipped_anchors += 1
