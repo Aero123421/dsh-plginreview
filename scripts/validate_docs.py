@@ -26,15 +26,16 @@ ANCHOR_ATTR = re.compile(r'\b(?:id|name)\s*=\s*["\']([^"\']+)["\']', re.IGNORECA
 def _span_end(text: str, start: int, size: int) -> int | None:
     """Return the index after a closing backtick run of exactly `size`."""
     cursor = start
-    token = '`' * size
     while cursor < len(text):
-        found = text.find(token, cursor)
+        found = text.find('`', cursor)
         if found < 0:
             return None
-        if found + size < len(text) and text[found + size] == '`':
-            cursor = found + 1
-            continue
-        return found + size
+        end = found + 1
+        while end < len(text) and text[end] == '`':
+            end += 1
+        if end - found == size:
+            return end
+        cursor = end
     return None
 
 
@@ -53,8 +54,8 @@ def strip_html_comments(text: str) -> str:
                 end += 1
             close = _span_end(text, end, end - index)
             if close is None:
-                out.append(text[index])
-                index += 1
+                out.append(text[index:end])
+                index = end
                 continue
             out.append(text[index:close])
             index = close
@@ -88,8 +89,8 @@ def mask_inline_code(text: str) -> str:
             end += 1
         close = _span_end(text, end, end - index)
         if close is None:
-            out.append(text[index])
-            index += 1
+            out.append(text[index:end])
+            index = end
             continue
         out.append(_mask(text[index:close]))
         index = close
@@ -120,11 +121,17 @@ def link_text(text: str) -> str:
 def anchors(text: str) -> set[str]:
     clean = strip_html_comments(prose(text))
     found: set[str] = set()
-    for tag in ANCHOR_TAG.findall(clean):
+    visible = mask_inline_code(clean)
+    for tag in ANCHOR_TAG.findall(visible):
         found.update(ANCHOR_ATTR.findall(tag))
     counts: dict[str, int] = {}
-    for title in re.findall(r'^#{1,6}\s+(.+?)\s*#*$', clean, re.MULTILINE):
-        title = re.sub(r'<[^>]*>', '', title).strip().lower()
+    for line, visible_line in zip(clean.splitlines(), visible.splitlines()):
+        if not re.match(r'^#{1,6}[ \t]+', visible_line):
+            continue
+        match = re.match(r'^#{1,6}\s+(.+?)\s*#*$', line)
+        if not match:
+            continue
+        title = re.sub(r'<[^>]*>', '', match.group(1)).strip().lower()
         slug = ''.join(c for c in title if c.isalnum() or c in '_- ')
         slug = slug.replace(' ', '-')
         count = counts.get(slug, 0)

@@ -107,6 +107,24 @@ class DocumentChecks(unittest.TestCase):
         self.assertTrue(any('also-missing.md' in e for e in errors))
         self.assertFalse(any('not-real.md' in e for e in errors))
 
+    def test_inline_code_uses_exact_backtick_run_lengths(self):
+        self.put('README.md', '# T\n`code `` [Example](not-real.md) end`\n[Real](missing.md)\n')
+        errors = validate(self.root).errors
+        self.assertFalse(any('not-real.md' in error for error in errors))
+        self.assertTrue(any('missing.md' in error for error in errors))
+
+    def test_unclosed_long_backticks_do_not_start_shorter_span(self):
+        self.put('README.md', '# T\n``unclosed `code` [Missing](missing.md)\n')
+        errors = validate(self.root).errors
+        self.assertTrue(any('missing.md' in error for error in errors))
+
+    def test_inline_code_anchor_is_not_real_but_heading_code_is(self):
+        self.put('README.md', '# `Visible`\n`<a id="hidden"></a>`\n'
+                 '[Visible](#visible) [Hidden](#hidden)\n')
+        errors = validate(self.root).errors
+        self.assertFalse(any('#visible' in error for error in errors))
+        self.assertTrue(any('#hidden' in error for error in errors))
+
     def test_comment_heading_is_not_an_anchor(self):
         self.put('README.md', '# T\n<!--\n# Hidden\n-->\n[H](#hidden)\n')
         self.assertTrue(any('missing heading' in e for e in validate(self.root).errors))
